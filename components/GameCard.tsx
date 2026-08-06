@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import useCanHover from '@/components/motion/useCanHover';
 import { EASE, staggerCard } from '@/components/motion/config';
@@ -16,6 +16,12 @@ const CARD = {
 
 const BLURB = {
   rest: { height: 0, opacity: 0 },
+  hover: { height: 'auto', opacity: 1 },
+};
+
+/** Touch devices never hover, so the blurb just stays open. */
+const BLURB_ALWAYS_OPEN = {
+  rest: { height: 'auto', opacity: 1 },
   hover: { height: 'auto', opacity: 1 },
 };
 
@@ -40,31 +46,18 @@ type Props = {
  */
 export default function GameCard({ game, hidden, sizes = '(min-width:940px) 33vw, (min-width:600px) 50vw, 100vw', priority }: Props) {
   const [hovered, setHovered] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const reduceMotion = useReducedMotion();
   const canHover = useCanHover();
 
-  // on touch there is no hover, so the blurb is simply always open
-  const blurbVariants = canHover ? BLURB : undefined;
+  // keep motion in charge either way — handing back an unmanaged element would
+  // strand the inline height:0 it set on the first render
+  const blurbVariants = canHover ? BLURB : BLURB_ALWAYS_OPEN;
   const showHoverLayer = hovered && game.hover && !reduceMotion;
 
-  function onEnter() {
-    setHovered(true);
-    if (game.hover?.type === 'video' && !reduceMotion) {
-      videoRef.current?.play().catch(() => {
-        /* autoplay blocked — the poster frame still shows */
-      });
-    }
-  }
-
-  function onLeave() {
-    setHovered(false);
-    const video = videoRef.current;
-    if (video) {
-      video.pause();
-      video.currentTime = 0;
-    }
-  }
+  // the <video> only mounts on hover, so it starts itself (muted autoplay is
+  // always permitted) and is torn down again on leave — no manual play/pause
+  const onEnter = () => setHovered(true);
+  const onLeave = () => setHovered(false);
 
   return (
     <motion.article variants={staggerCard} hidden={hidden} style={{ minWidth: 0 }}>
@@ -105,9 +98,9 @@ export default function GameCard({ game, hidden, sizes = '(min-width:940px) 33vw
             >
               {game.hover.type === 'video' ? (
                 <video
-                  ref={videoRef}
                   src={game.hover.src}
                   poster={game.hover.poster}
+                  autoPlay
                   muted
                   loop
                   playsInline
