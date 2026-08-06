@@ -1,5 +1,10 @@
 export type GameGenre = 'action' | 'narrative' | 'xr' | 'education' | 'casual';
 
+/** What plays when a card is hovered — a second still, or gameplay footage. */
+export type GameMedia =
+  | { type: 'image'; src: string }
+  | { type: 'video'; src: string; poster?: string };
+
 export type Game = {
   title: string;
   studio: string;
@@ -8,8 +13,18 @@ export type Game = {
   blurb: string;
   /** Filter tags used by the games page pill tabs. */
   genres: GameGenre[];
-  /** Placeholder key-art gradient until real art lands. */
+  /** Placeholder key-art gradient, used until `poster` is supplied. */
   art: string;
+  /**
+   * Key art at rest. A path under /public, e.g. '/games/karmzah.jpg'.
+   * See docs/media.md.
+   */
+  poster?: string;
+  /**
+   * Revealed on hover — gameplay footage reads best:
+   * { type: 'video', src: '/games/karmzah.mp4' }
+   */
+  hover?: GameMedia;
   /** Optional suffix on the studio tag, e.g. "· Announced". */
   tagSuffix?: string;
 };

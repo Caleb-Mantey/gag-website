@@ -1,31 +1,41 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
+import { Bricolage_Grotesque, Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import ScrollReveal from '@/components/ScrollReveal';
 import ThemeScript from '@/components/ThemeScript';
+import MotionProvider from '@/components/motion/MotionProvider';
 
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
+/* Display — Bricolage Grotesque. A contemporary grotesque with real character
+   in its details; carries the "bold + editorial" voice at large sizes. */
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-space-grotesk',
+  variable: '--font-bricolage',
   display: 'swap',
 });
 
-const inter = Inter({
+/* Body — Geist. Neutral, engineered, high legibility at 17px. */
+const geist = Geist({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-inter',
+  variable: '--font-geist',
   display: 'swap',
 });
 
-const jetBrainsMono = JetBrains_Mono({
+/* Labels, eyebrows, stats — Geist Mono. */
+const geistMono = Geist_Mono({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-jetbrains-mono',
+  variable: '--font-geist-mono',
+  display: 'swap',
+});
+
+/* One editorial serif voice, reserved for pull quotes and manifesto lines. */
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument-serif',
   display: 'swap',
 });
 
@@ -33,7 +43,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://gag.gh'),
   title: {
     default: "Game Developers Association of Ghana, Building Africa's next games powerhouse",
-    template: '%s Game Developers Association of Ghana',
+    template: '%s — Game Developers Association of Ghana',
   },
   description:
     'The Game Developers Association of Ghana (GAG) unites the studios, creators and games putting Ghana on the map as a powerhouse of African game development.',
@@ -53,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetBrainsMono.variable}`}
+      className={`${bricolage.variable} ${geist.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
       // the design system sets scroll-behavior:smooth; this tells the router to
       // skip the animation on route changes and land at the top instantly
       data-scroll-behavior="smooth"
@@ -66,10 +76,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="skip" href="#main">
           Skip to content
         </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
-        <ScrollReveal />
+        <MotionProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

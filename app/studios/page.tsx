@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 import StudioLogo from '@/components/StudioLogo';
 import { ArrowIcon, FlagRule, StarIcon } from '@/components/icons';
+import Reveal from '@/components/motion/Reveal';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 import { foundingStudios, memberStudios, studioCount } from '@/lib/studios';
 
 export const metadata: Metadata = {
@@ -15,28 +17,32 @@ export default function StudiosPage() {
   return (
     <>
       <section className="page-hero">
-        <div className="container">
-          <FlagRule className="reveal" />
-          <p className="eyebrow reveal d1" style={{ marginTop: 20 }}>
+        <Stagger className="container" stagger={0.09}>
+          <StaggerItem>
+            <FlagRule />
+          </StaggerItem>
+          <StaggerItem as="p" className="eyebrow" style={{ marginTop: 20 }}>
             The network · {studioCount} studios
-          </p>
-          <h1 className="balance reveal d1">The studios of Ghana&apos;s games industry.</h1>
-          <p className="lead pretty reveal d2">
+          </StaggerItem>
+          <StaggerItem>
+            <h1 className="balance">The studios of Ghana&apos;s games industry.</h1>
+          </StaggerItem>
+          <StaggerItem as="p" className="lead pretty">
             From globally recognised names to emerging indies, these are the teams building games, XR and interactive
             media in Ghana, many of them documented alongside GAG on Warped Atlas.
-          </p>
-        </div>
+          </StaggerItem>
+        </Stagger>
       </section>
 
       {/* FLAGSHIP */}
       <section className="section--tight">
         <div className="container">
-          <p className="eyebrow reveal" style={{ marginBottom: 26 }}>
+          <Reveal as="p" className="eyebrow" style={{ marginBottom: 26 }}>
             Flagship members
-          </p>
-          <div className="grid" style={{ gap: 24 }}>
+          </Reveal>
+          <Stagger className="grid" stagger={0.1} style={{ gap: 24 }}>
             {foundingStudios.map((studio) => (
-              <article className="flagship reveal" key={studio.slug}>
+              <StaggerItem as="article" className="flagship" variant="card" key={studio.slug}>
                 <span className="badge badge-award">
                   <StarIcon />
                   {studio.badge}
@@ -72,9 +78,9 @@ export default function StudiosPage() {
                     ))}
                   </div>
                 </div>
-              </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -83,22 +89,28 @@ export default function StudiosPage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow eyebrow--green reveal">The wider network</p>
-              <h2 className="h2 balance reveal d1">Ten more studios on the map.</h2>
+              <Reveal as="p" className="eyebrow eyebrow--green">
+                The wider network
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                Ten more studios on the map.
+              </Reveal>
             </div>
-            <a
-              href="https://warpedatlas.com/countries/ghana"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-arrow reveal d1"
-            >
-              See Ghana on Warped Atlas
-              <ArrowIcon />
-            </a>
+            <Reveal delay={0.06}>
+              <a
+                href="https://warpedatlas.com/countries/ghana"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-arrow"
+              >
+                See Ghana on Warped Atlas
+                <ArrowIcon />
+              </a>
+            </Reveal>
           </div>
-          <div className="grid cols-3">
-            {memberStudios.map((studio, i) => (
-              <article className={`card studio-card reveal${i % 3 ? ` d${i % 3}` : ''}`} key={studio.slug}>
+          <Stagger className="grid cols-3" stagger={0.07}>
+            {memberStudios.map((studio) => (
+              <StaggerItem as="article" className="card studio-card" variant="card" key={studio.slug}>
                 <StudioLogo
                   slug={studio.slug}
                   name={studio.name}
@@ -117,10 +129,11 @@ export default function StudiosPage() {
                   <p className="role">{studio.role}</p>
                 </div>
                 <p className="bio">{studio.bio}</p>
-              </article>
+              </StaggerItem>
             ))}
-          </div>
-          <p
+          </Stagger>
+          <Reveal
+            as="p"
             className="text-muted"
             style={{ fontSize: 13.5, marginTop: 26, fontFamily: 'var(--font-mono)', letterSpacing: '.02em' }}
           >
@@ -128,14 +141,14 @@ export default function StudiosPage() {
             <Link href="/about#join" className="text-accent">
               Add it
             </Link>
-          </p>
+          </Reveal>
         </div>
       </section>
 
       {/* JOIN CTA */}
       <section className="section section--alt">
         <div className="container">
-          <div className="band band--ink reveal" style={{ textAlign: 'center' }}>
+          <Reveal className="band band--ink" style={{ textAlign: 'center' }}>
             <p className="eyebrow eyebrow--gold" style={{ justifyContent: 'center' }}>
               Are you a Ghanaian studio?
             </p>
@@ -150,7 +163,7 @@ export default function StudiosPage() {
                 Join GAG
               </Link>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

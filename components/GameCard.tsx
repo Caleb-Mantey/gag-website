@@ -1,28 +1,160 @@
+'use client';
+
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
+
+import useCanHover from '@/components/motion/useCanHover';
+import { EASE, staggerCard } from '@/components/motion/config';
+import { PlayIcon } from '@/components/icons';
 import type { Game } from '@/lib/games';
 
-export default function GameCard({
-  game,
-  className,
-  hidden,
-}: {
+const CARD = {
+  rest: { y: 0 },
+  hover: { y: -8 },
+};
+
+const BLURB = {
+  rest: { height: 0, opacity: 0 },
+  hover: { height: 'auto', opacity: 1 },
+};
+
+const LIFT = {
+  rest: { y: 0 },
+  hover: { y: -2 },
+};
+
+type Props = {
   game: Game;
-  className?: string;
-  /** Filtered out — kept mounted (and so keeps its reveal state) but hidden. */
+  /** Filtered out — kept mounted so the grid can animate, but hidden. */
   hidden?: boolean;
-}) {
+  /** Image sizes hint for the responsive srcset. */
+  sizes?: string;
+  priority?: boolean;
+};
+
+/**
+ * A game as a full-bleed poster: key art edge to edge, type sitting on it.
+ * Hovering swaps in the second layer — gameplay footage if the title has any,
+ * otherwise a second still — and opens up the blurb underneath the title.
+ */
+export default function GameCard({ game, hidden, sizes = '(min-width:940px) 33vw, (min-width:600px) 50vw, 100vw', priority }: Props) {
+  const [hovered, setHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const reduceMotion = useReducedMotion();
+  const canHover = useCanHover();
+
+  // on touch there is no hover, so the blurb is simply always open
+  const blurbVariants = canHover ? BLURB : undefined;
+  const showHoverLayer = hovered && game.hover && !reduceMotion;
+
+  function onEnter() {
+    setHovered(true);
+    if (game.hover?.type === 'video' && !reduceMotion) {
+      videoRef.current?.play().catch(() => {
+        /* autoplay blocked — the poster frame still shows */
+      });
+    }
+  }
+
+  function onLeave() {
+    setHovered(false);
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }
+
   return (
-    <article className={['game-card', className].filter(Boolean).join(' ')} hidden={hidden}>
-      <div className="art" style={{ background: game.art }}>
-        <span className="studio-tag">
+    <motion.article variants={staggerCard} hidden={hidden} style={{ minWidth: 0 }}>
+      <motion.div
+        className="game-card"
+        variants={CARD}
+        initial="rest"
+        animate={hovered ? 'hover' : 'rest'}
+        onHoverStart={onEnter}
+        onHoverEnd={onLeave}
+        onFocusCapture={onEnter}
+        onBlurCapture={onLeave}
+        transition={{ duration: 0.45, ease: EASE }}
+      >
+        {/* resting artwork */}
+        <div className="game-card__layer">
+          {game.poster ? (
+            <Image src={game.poster} alt="" fill sizes={sizes} priority={priority} />
+          ) : (
+            <motion.div
+              className="game-card__art"
+              style={{ background: game.art }}
+              variants={{ rest: { scale: 1 }, hover: { scale: 1.05 } }}
+              transition={{ duration: 0.7, ease: EASE }}
+            />
+          )}
+        </div>
+
+        {/* gameplay footage / second still */}
+        <AnimatePresence>
+          {showHoverLayer && game.hover && (
+            <motion.div
+              className="game-card__layer"
+              initial={{ opacity: 0, scale: 1.06 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
+            >
+              {game.hover.type === 'video' ? (
+                <video
+                  ref={videoRef}
+                  src={game.hover.src}
+                  poster={game.hover.poster}
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  aria-hidden="true"
+                />
+              ) : (
+                <Image src={game.hover.src} alt="" fill sizes={sizes} />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="game-card__scrim" />
+
+        <span className="game-card__tag">
           {game.studio}
           {game.tagSuffix ? ` ${game.tagSuffix}` : ''}
         </span>
-      </div>
-      <div className="body">
-        <p className="genre">{game.kicker}</p>
-        <h3>{game.title}</h3>
-        <p>{game.blurb}</p>
-      </div>
-    </article>
+
+        {game.hover?.type === 'video' && (
+          <motion.span
+            className="game-card__play"
+            variants={{ rest: { opacity: 1, scale: 1 }, hover: { opacity: 0, scale: 0.8 } }}
+            transition={{ duration: 0.3, ease: EASE }}
+            aria-hidden="true"
+          >
+            <PlayIcon />
+          </motion.span>
+        )}
+
+        <div className="game-card__body">
+          <motion.p className="game-card__kicker" variants={LIFT} transition={{ duration: 0.4, ease: EASE }}>
+            {game.kicker}
+          </motion.p>
+          <motion.h3 className="game-card__title" variants={LIFT} transition={{ duration: 0.4, ease: EASE }}>
+            {game.title}
+          </motion.h3>
+          <motion.div
+            className="game-card__blurb"
+            variants={blurbVariants}
+            transition={{ duration: 0.45, ease: EASE }}
+          >
+            <p style={{ paddingTop: 8 }}>{game.blurb}</p>
+          </motion.div>
+        </div>
+      </motion.div>
+    </motion.article>
   );
 }

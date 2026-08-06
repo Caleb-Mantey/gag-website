@@ -3,8 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import warpedAtlasLogo from '@/assets/warped-atlas-white.png';
+import HeroVisual from '@/components/HeroVisual';
 import JoinForm from '@/components/JoinForm';
-import { FlagRule, GagMarkLarge, Glyph, Glyphs } from '@/components/icons';
+import PeopleGrid from '@/components/PeopleGrid';
+import { FlagRule, Glyph, Glyphs } from '@/components/icons';
+import CountUp from '@/components/motion/CountUp';
+import Reveal from '@/components/motion/Reveal';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
+import { leadership } from '@/lib/people';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -32,38 +38,6 @@ const pillars = [
     shape: 'square' as const,
     title: 'Document',
     body: "Keep Ghana's studios, games and milestones on the record, including on Warped Atlas.",
-  },
-];
-
-const leadership = [
-  {
-    initials: 'ET',
-    chip: 'var(--accent)',
-    name: 'Eyram Tawia',
-    role: 'Chair · Convener',
-    bio: "Co-founder & CEO of Leti Arts and a pioneer of African game development. Chaired GAG's founding gathering.",
-  },
-  {
-    initials: '—',
-    chip: 'var(--green)',
-    name: 'Executive board',
-    role: 'Roster to be published',
-    bio: "GAG's founding executive spans studios and disciplines across the community. Full profiles coming soon.",
-  },
-  {
-    initials: '—',
-    chip: 'var(--ink)',
-    name: 'Studio council',
-    role: 'Member representatives',
-    bio: "Representatives from member studios help set the association's priorities and programmes.",
-  },
-  {
-    initials: '+',
-    chip: 'var(--gold)',
-    chipInk: true,
-    name: 'You?',
-    role: 'Volunteers welcome',
-    bio: 'The association runs on its community. If you want to help build it, there’s a place for you.',
   },
 ];
 
@@ -115,23 +89,24 @@ export default function AboutPage() {
     <>
       <section className="page-hero">
         <div className="container grid cols-2" style={{ alignItems: 'center', gap: 48 }}>
-          <div>
-            <FlagRule className="reveal" />
-            <p className="eyebrow reveal d1" style={{ marginTop: 20 }}>
+          <Stagger stagger={0.09}>
+            <StaggerItem>
+              <FlagRule />
+            </StaggerItem>
+            <StaggerItem as="p" className="eyebrow" style={{ marginTop: 20 }}>
               About the association
-            </p>
-            <h1 className="balance reveal d1">One industry. One voice. From Accra to the World.</h1>
-            <p className="lead pretty reveal d2">
+            </StaggerItem>
+            <StaggerItem>
+              <h1 className="balance">One industry. One voice. From Accra to the World.</h1>
+            </StaggerItem>
+            <StaggerItem as="p" className="lead pretty">
               The Game Developers Association of Ghana brings the country&apos;s studios and creators together to grow
               the craft, represent the industry, and make Ghana a name the global games world knows.
-            </p>
-          </div>
+            </StaggerItem>
+          </Stagger>
           {/* the mark floats straight on the page — the logo PNG carries a baked-in
               white field, so the vector mark is what works plate-free on both themes */}
-          <div className="hero-visual about-visual reveal d2" aria-hidden="true">
-            <div className="hero-glow" />
-            <GagMarkLarge />
-          </div>
+          <HeroVisual className="about-visual" />
         </div>
       </section>
 
@@ -139,11 +114,13 @@ export default function AboutPage() {
       <section className="section section--alt">
         <div className="container grid cols-2" style={{ gap: 56, alignItems: 'start' }}>
           <div>
-            <p className="eyebrow eyebrow--green reveal">Our story</p>
-            <h2 className="h2 balance reveal d1" style={{ margin: '16px 0 22px' }}>
+            <Reveal as="p" className="eyebrow eyebrow--green">
+              Our story
+            </Reveal>
+            <Reveal as="h2" className="h2 balance" delay={0.06} style={{ margin: '16px 0 22px' }}>
               Founded by the community, in 2022.
-            </h2>
-            <div className="prose reveal d2">
+            </Reveal>
+            <Reveal className="prose" delay={0.12}>
               <p>
                 GAG came together in <strong>August 2022</strong>, when Ghana&apos;s game makers gathered to build
                 something the scene had never had: a shared home. The inaugural meeting was chaired by{' '}
@@ -155,16 +132,16 @@ export default function AboutPage() {
                 whose work spans education, entertainment and entrepreneurship.
               </p>
               <p>
-                Since then, Ghanaian studios have won presidential pitches, earned global grants, and shipped games that
-                travel far beyond our borders. GAG exists to turn those individual wins into a durable, investable
+                Since then, Ghanaian studios have won presidential pitches, earned global grants, and shipped games
+                that travel far beyond our borders. GAG exists to turn those individual wins into a durable, investable
                 industry.
               </p>
-            </div>
+            </Reveal>
           </div>
-          <div className="reveal d1">
+          <Reveal delay={0.08}>
             <blockquote className="pull">
-              We&apos;re not waiting to be discovered. We&apos;re building the industry and inviting the world to
-              build it with us.
+              We&apos;re not waiting to be discovered. We&apos;re building the industry and inviting the world to build
+              it with us.
               <cite>The GAG founding vision</cite>
             </blockquote>
             <div className="stat-band" style={{ marginTop: 34, gridTemplateColumns: 'repeat(2,1fr)' }}>
@@ -175,11 +152,13 @@ export default function AboutPage() {
                 <div className="l">Founded in Accra</div>
               </div>
               <div className="stat">
-                <div className="n">3</div>
+                <div className="n">
+                  <CountUp to={3} />
+                </div>
                 <div className="l">Pillars: educate · entertain · build</div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -188,13 +167,17 @@ export default function AboutPage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow reveal">What we do</p>
-              <h2 className="h2 balance reveal d1">Four jobs, one goal.</h2>
+              <Reveal as="p" className="eyebrow">
+                What we do
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                Four jobs, one goal.
+              </Reveal>
             </div>
           </div>
-          <div className="grid cols-4">
-            {pillars.map((pillar, i) => (
-              <div className={`card reveal${i ? ` d${i}` : ''}`} key={pillar.title}>
+          <Stagger className="grid cols-4" stagger={0.08}>
+            {pillars.map((pillar) => (
+              <StaggerItem className="card" variant="card" key={pillar.title}>
                 <Glyph shape={pillar.shape} style={{ marginBottom: 16 }} />
                 <h3 className="h3" style={{ fontSize: 20 }}>
                   {pillar.title}
@@ -202,16 +185,16 @@ export default function AboutPage() {
                 <p className="text-muted" style={{ fontSize: 15, marginTop: 10 }}>
                   {pillar.body}
                 </p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* WARPED ATLAS COLLAB */}
       <section className="section section--alt" id="warped" style={{ scrollMarginTop: 90 }}>
         <div className="container">
-          <div className="band band--ink reveal">
+          <Reveal className="band band--ink">
             <div className="grid cols-2" style={{ alignItems: 'center', gap: 44 }}>
               <div>
                 <Image
@@ -240,7 +223,12 @@ export default function AboutPage() {
                   continent, and ours of building the industry, point in the same direction.
                 </p>
                 <div style={{ marginTop: 26, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                  <a href="https://warpedatlas.com/" target="_blank" rel="noopener noreferrer" className="btn btn--primary">
+                  <a
+                    href="https://warpedatlas.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn--primary"
+                  >
                     Visit Warped Atlas ↗
                   </a>
                   <a
@@ -254,8 +242,8 @@ export default function AboutPage() {
                   </a>
                 </div>
               </div>
-              <div className="grid" style={{ gap: 14 }}>
-                <div
+              <Stagger className="grid" stagger={0.09} style={{ gap: 14 }}>
+                <StaggerItem
                   className="card"
                   style={{
                     background: 'color-mix(in oklab,currentColor 7%,transparent)',
@@ -270,8 +258,8 @@ export default function AboutPage() {
                     A single, verified map means you can size the market, find studios and track the ecosystem&apos;s
                     growth without guesswork. Ghana&apos;s chapter is one of the most active on the continent.
                   </p>
-                </div>
-                <div className="grid cols-2" style={{ gap: 14 }}>
+                </StaggerItem>
+                <StaggerItem className="grid cols-2" style={{ gap: 14 }}>
                   <div
                     className="card"
                     style={{
@@ -282,7 +270,7 @@ export default function AboutPage() {
                   >
                     <div className="stat">
                       <div className="n" style={{ color: 'var(--gold)' }}>
-                        44
+                        <CountUp to={44} />
                       </div>
                       <div className="l" style={{ color: 'color-mix(in oklab,currentColor 66%,transparent)' }}>
                         Ghana records
@@ -299,17 +287,18 @@ export default function AboutPage() {
                   >
                     <div className="stat">
                       <div className="n" style={{ color: 'var(--green)' }}>
-                        12<b>+</b>
+                        <CountUp to={12} />
+                        <b>+</b>
                       </div>
                       <div className="l" style={{ color: 'color-mix(in oklab,currentColor 66%,transparent)' }}>
                         Countries
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </StaggerItem>
+              </Stagger>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -318,33 +307,23 @@ export default function AboutPage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow eyebrow--green reveal">Leadership</p>
-              <h2 className="h2 balance reveal d1">The people steering it.</h2>
+              <Reveal as="p" className="eyebrow eyebrow--green">
+                Leadership
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                The people steering it.
+              </Reveal>
             </div>
           </div>
-          <div className="grid cols-4">
-            {leadership.map((person, i) => (
-              <article className={`card studio-card reveal${i ? ` d${i}` : ''}`} key={person.name}>
-                <div
-                  className="logo-chip"
-                  style={{ background: person.chip, color: person.chipInk ? 'var(--ink)' : undefined }}
-                >
-                  {person.initials}
-                </div>
-                <div>
-                  <h3 style={{ fontSize: 19 }}>{person.name}</h3>
-                  <p className="role">{person.role}</p>
-                </div>
-                <p className="bio">{person.bio}</p>
-              </article>
-            ))}
-          </div>
-          <p
+          <PeopleGrid people={leadership} />
+          <Reveal
+            as="p"
             className="text-muted"
-            style={{ fontSize: 13, marginTop: 22, fontFamily: 'var(--font-mono)', letterSpacing: '.02em' }}
+            style={{ fontSize: 13, marginTop: 26, fontFamily: 'var(--font-mono)', letterSpacing: '.02em' }}
           >
-            Leadership details beyond the chair are placeholders pending the association&apos;s confirmed roster.
-          </p>
+            Portraits drop into /public/people — until then each seat shows its monogram. Leadership details beyond the
+            chair are pending the association&apos;s confirmed roster.
+          </Reveal>
         </div>
       </section>
 
@@ -353,29 +332,35 @@ export default function AboutPage() {
         <div className="container">
           <div className="grid cols-2" style={{ gap: 56, alignItems: 'start' }}>
             <div>
-              <p className="eyebrow reveal">For investors &amp; partners</p>
-              <h2 className="h2 balance reveal d1" style={{ margin: '16px 0 20px' }}>
+              <Reveal as="p" className="eyebrow">
+                For investors &amp; partners
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06} style={{ margin: '16px 0 20px' }}>
                 Why Ghana. Why now.
-              </h2>
-              <div className="prose reveal d2">
+              </Reveal>
+              <Reveal className="prose" delay={0.12}>
                 <p>
                   Ghana pairs a young, English-speaking, digitally-native population with a rising cohort of studios
                   that are already winning international recognition. The talent is proven; the market is early. That
                   combination is exactly what returns are made of.
                 </p>
-              </div>
-              <div className="reveal d2" style={{ marginTop: 24, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              </Reveal>
+              <Reveal delay={0.12} style={{ marginTop: 24, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
                 <Link href="#join" className="btn btn--primary">
                   Start a conversation
                 </Link>
                 <Link href="/studios" className="btn btn--ghost">
                   Review the studios
                 </Link>
-              </div>
+              </Reveal>
             </div>
-            <div className="grid reveal d1" style={{ gap: 14 }}>
+            <Stagger className="grid" stagger={0.08} style={{ gap: 14 }}>
               {investorPoints.map((point) => (
-                <div className="card" key={point.title} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                <StaggerItem
+                  className="card"
+                  key={point.title}
+                  style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}
+                >
                   <span className="badge-award" style={{ color: point.color }}>
                     <svg
                       viewBox="0 0 24 24"
@@ -397,9 +382,9 @@ export default function AboutPage() {
                       {point.body}
                     </p>
                   </div>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </div>
       </section>
@@ -407,7 +392,7 @@ export default function AboutPage() {
       {/* JOIN */}
       <section className="section" id="join" style={{ scrollMarginTop: 90 }}>
         <div className="container">
-          <div className="band band--ink reveal">
+          <Reveal className="band band--ink">
             <div className="grid cols-2" style={{ gap: 44, alignItems: 'center' }}>
               <div>
                 <Glyphs style={{ marginBottom: 20 }} />
@@ -416,13 +401,13 @@ export default function AboutPage() {
                   Join, partner, or just say hello.
                 </h2>
                 <p className="lead">
-                  Whether you&apos;re a studio, a developer, an investor or a partner, there&apos;s a way in. Tell us
+                  Whether you&apos;re a studio, a developer, an investor or a partner — there&apos;s a way in. Tell us
                   who you are and we&apos;ll take it from there.
                 </p>
               </div>
               <JoinForm />
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

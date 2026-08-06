@@ -1,11 +1,13 @@
 'use client';
 
+import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import ThemeToggle from '@/components/ThemeToggle';
-import { BurgerIcon, GagMark } from '@/components/icons';
+import { BurgerIcon, CloseIcon, GagMark } from '@/components/icons';
+import { EASE } from '@/components/motion/config';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -20,6 +22,10 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // reading progress along the bottom edge of the header
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 180, damping: 38, mass: 0.3 });
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
@@ -31,26 +37,44 @@ export default function Header() {
   useEffect(() => setMenuOpen(false), [pathname]);
 
   return (
-    <header className={['site-header', scrolled && 'scrolled'].filter(Boolean).join(' ')}>
+    <motion.header
+      className={['site-header', scrolled && 'scrolled'].filter(Boolean).join(' ')}
+      initial={{ y: -70 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: EASE }}
+    >
       <div className="container nav">
         <Link className="brand" href="/" aria-label="GAG home">
-          <GagMark />
+          <motion.span whileHover={{ rotate: 8, scale: 1.06 }} transition={{ duration: 0.4, ease: EASE }}>
+            <GagMark />
+          </motion.span>
           <span className="wordmark">
             GAG<small>Game Developers · Ghana</small>
           </span>
         </Link>
 
         <nav className={['nav-links', menuOpen && 'open'].filter(Boolean).join(' ')} aria-label="Primary">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={pathname === link.href ? 'active' : undefined}
-              aria-current={pathname === link.href ? 'page' : undefined}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={active ? 'active' : undefined}
+                aria-current={active ? 'page' : undefined}
+              >
+                {/* one pill that slides from item to item as you navigate */}
+                {active && (
+                  <motion.span
+                    className="nav-pill"
+                    layoutId="nav-pill"
+                    transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+                  />
+                )}
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="nav-actions">
@@ -58,16 +82,30 @@ export default function Header() {
           <Link href="/about#join" className="btn btn--primary btn--sm nav-cta-desktop">
             Join GAG
           </Link>
-          <button
+          <motion.button
             className="nav-burger"
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Close menu' : 'Menu'}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
+            whileTap={{ scale: 0.92 }}
           >
-            <BurgerIcon />
-          </button>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={menuOpen ? 'close' : 'open'}
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 90 }}
+                transition={{ duration: 0.2 }}
+                style={{ display: 'grid', placeItems: 'center' }}
+              >
+                {menuOpen ? <CloseIcon /> : <BurgerIcon />}
+              </motion.span>
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
-    </header>
+
+      <motion.div className="scroll-progress" style={{ scaleX: progress }} aria-hidden="true" />
+    </motion.header>
   );
 }

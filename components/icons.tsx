@@ -34,6 +34,30 @@ export function BurgerIcon() {
   );
 }
 
+export function PlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5.6v12.8a1 1 0 001.53.85l10.1-6.4a1 1 0 000-1.7L9.53 4.75A1 1 0 008 5.6z" />
+    </svg>
+  );
+}
+
+export function ExpandIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <path d="M9 3H3v6M15 21h6v-6M3 15v6h6M21 9V3h-6" />
+    </svg>
+  );
+}
+
+export function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <path d="M5 5l14 14M19 5L5 19" />
+    </svg>
+  );
+}
+
 export function StarIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -53,28 +77,6 @@ export function GagMark({ size = 40 }: { size?: number }) {
       <path className="g-x" d="M15 66 L37 88 M37 66 L15 88" strokeWidth="7.5" strokeLinecap="round" />
       <rect className="g-square" x="58" y="58" width="32" height="32" rx="2" strokeWidth="7.5" />
       <path className="g-square" d="M74 74 H90" strokeWidth="7.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-/** Hero-sized mark with the two floating groups. */
-export function GagMarkLarge() {
-  return (
-    <svg className="mark mark-lg" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <g className="floaty">
-        <circle className="g-circle" cx="25" cy="25" r="16" strokeWidth="6" />
-        <path className="g-circle" d="M25 25 H41" strokeWidth="6" strokeLinecap="round" />
-      </g>
-      <g className="floaty-2">
-        <path className="g-tri" d="M75 8 L94 42 H56 Z" strokeWidth="5.4" strokeLinejoin="round" />
-      </g>
-      <g className="floaty-2">
-        <path className="g-x" d="M12 63 L40 91 M40 63 L12 91" strokeWidth="6" strokeLinecap="round" />
-      </g>
-      <g className="floaty">
-        <rect className="g-square" x="57" y="57" width="35" height="35" rx="3" strokeWidth="6" />
-        <path className="g-square" d="M74.5 74.5 H92" strokeWidth="6" strokeLinecap="round" />
-      </g>
     </svg>
   );
 }

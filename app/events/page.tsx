@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 
+import Gallery from '@/components/Gallery';
 import NotifyForm from '@/components/NotifyForm';
 import { FlagRule, Glyphs } from '@/components/icons';
+import Reveal from '@/components/motion/Reveal';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 
 export const metadata: Metadata = {
   title: 'Events',
@@ -33,17 +36,6 @@ const upcoming = [
   },
 ];
 
-const gallery = [
-  { label: 'Global Game Jam · Accra ’24', span: 'tall', art: 'linear-gradient(150deg, oklch(58% 0.19 27), oklch(32% 0.1 20))' },
-  { label: 'Studio showcase', span: '', art: 'linear-gradient(150deg, oklch(80% 0.15 88), oklch(52% 0.13 55))' },
-  { label: 'Dev workshop', span: '', art: 'linear-gradient(150deg, oklch(60% 0.15 150), oklch(38% 0.1 168))' },
-  { label: 'Inaugural gathering · 2022', span: 'wide', art: 'linear-gradient(120deg, oklch(20% 0.01 60), oklch(40% 0.06 30))' },
-  { label: 'Community meetup', span: '', art: 'linear-gradient(150deg, oklch(64% 0.17 35), oklch(45% 0.14 300))' },
-  { label: 'XR demo day', span: '', art: 'linear-gradient(150deg, oklch(70% 0.14 150), oklch(80% 0.15 88))' },
-  { label: 'Investor & partner mixer', span: 'wide', art: 'linear-gradient(120deg, oklch(58% 0.19 27), oklch(80% 0.15 88))' },
-  { label: 'Student game day', span: '', art: 'linear-gradient(150deg, oklch(52% 0.15 250), oklch(40% 0.12 300))' },
-];
-
 const milestones = [
   {
     date: '2024',
@@ -66,32 +58,32 @@ export default function EventsPage() {
   return (
     <>
       <section className="page-hero">
-        <div className="container">
-          <FlagRule className="reveal" />
-          <p className="eyebrow reveal d1" style={{ marginTop: 20 }}>
+        <Stagger className="container" stagger={0.09}>
+          <StaggerItem>
+            <FlagRule />
+          </StaggerItem>
+          <StaggerItem as="p" className="eyebrow" style={{ marginTop: 20 }}>
             The community, in the room
-          </p>
-          <h1 className="balance reveal d1">Where Ghana&apos;s game makers meet.</h1>
-          <p className="lead pretty reveal d2">
+          </StaggerItem>
+          <StaggerItem>
+            <h1 className="balance">Where Ghana&apos;s game makers meet.</h1>
+          </StaggerItem>
+          <StaggerItem as="p" className="lead pretty">
             Game jams, studio showcases, workshops and investor nights. The association&apos;s events are where talent
             connects, projects get made and partners see the industry up close.
-          </p>
-        </div>
+          </StaggerItem>
+        </Stagger>
       </section>
 
       {/* UPCOMING */}
       <section className="section--tight">
         <div className="container">
-          <p className="eyebrow eyebrow--green reveal" style={{ marginBottom: 22 }}>
+          <Reveal as="p" className="eyebrow eyebrow--green" style={{ marginBottom: 22 }}>
             Upcoming &amp; planned
-          </p>
-          <div className="grid cols-3">
-            {upcoming.map((event, i) => (
-              <article
-                key={event.title}
-                className={`card reveal${i ? ` d${i}` : ''}`}
-                style={{ display: 'flex', flexDirection: 'column', gap: 14 }}
-              >
+          </Reveal>
+          <Stagger className="grid cols-3" stagger={0.09}>
+            {upcoming.map((event) => (
+              <StaggerItem as="article" className="card event-card" variant="card" key={event.title}>
                 <span className={`status-pill ${event.status}`} style={{ alignSelf: 'flex-start' }}>
                   {event.pill}
                 </span>
@@ -99,21 +91,10 @@ export default function EventsPage() {
                 <p className="text-muted" style={{ fontSize: 15 }}>
                   {event.body}
                 </p>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 12,
-                    letterSpacing: '.04em',
-                    color: 'var(--faint)',
-                    marginTop: 'auto',
-                  }}
-                >
-                  {event.when}
-                </p>
-              </article>
+                <p className="when">{event.when}</p>
+              </StaggerItem>
             ))}
-          </div>
-          
+          </Stagger>
         </div>
       </section>
 
@@ -122,49 +103,47 @@ export default function EventsPage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow reveal">From the community</p>
-              <h2 className="h2 balance reveal d1">The gallery.</h2>
+              <Reveal as="p" className="eyebrow">
+                From the community
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                The gallery.
+              </Reveal>
             </div>
-          
+            
           </div>
-          <div className="gallery reveal">
-            {gallery.map((tile) => (
-              <div key={tile.label} className={`gtile ${tile.span}`.trim()} style={{ background: tile.art }}>
-                <span>{tile.label}</span>
-              </div>
-            ))}
-          </div>
+          <Gallery />
         </div>
       </section>
 
       {/* PAST TIMELINE */}
       <section className="section section--alt">
         <div className="container">
-          <p className="eyebrow eyebrow--gold reveal" style={{ marginBottom: 8 }}>
+          <Reveal as="p" className="eyebrow eyebrow--gold" style={{ marginBottom: 8 }}>
             Milestones
-          </p>
-          <h2 className="h2 balance reveal d1" style={{ marginBottom: 30 }}>
+          </Reveal>
+          <Reveal as="h2" className="h2 balance" delay={0.06} style={{ marginBottom: 30 }}>
             How we got here.
-          </h2>
-          <div className="reveal">
+          </Reveal>
+          <Stagger stagger={0.09}>
             {milestones.map((item, i) => (
-              <div className="event-row" key={item.title} style={i === 0 ? { borderTop: 0 } : undefined}>
+              <StaggerItem className="event-row" key={item.title} style={i === 0 ? { borderTop: 0 } : undefined}>
                 <div className="date">{item.date}</div>
                 <div>
                   <h3>{item.title}</h3>
                   <p>{item.body}</p>
                 </div>
                 <span className="status-pill past">Past</span>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* STAY IN THE LOOP */}
       <section className="section">
         <div className="container">
-          <div className="band band--ink reveal" style={{ textAlign: 'center' }}>
+          <Reveal className="band band--ink" style={{ textAlign: 'center' }}>
             <Glyphs style={{ justifyContent: 'center', marginBottom: 22 }} />
             <p className="eyebrow eyebrow--gold" style={{ justifyContent: 'center' }}>
               Don&apos;t miss the next one
@@ -176,7 +155,7 @@ export default function EventsPage() {
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, letterSpacing: '.04em', marginTop: 14, opacity: 0.6 }}>
               No spam. Just jams, showcases and opportunities.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

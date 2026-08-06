@@ -3,10 +3,46 @@ import Link from 'next/link';
 
 import warpedAtlasLogo from '@/assets/warped-atlas-white.png';
 import GameCard from '@/components/GameCard';
+import HeroVisual from '@/components/HeroVisual';
 import StudioLogo from '@/components/StudioLogo';
-import { ArrowIcon, FlagRule, GagMarkLarge, Glyphs, StudioPlaceholderMark } from '@/components/icons';
+import { ArrowIcon, FlagRule, Glyphs, StudioPlaceholderMark } from '@/components/icons';
+import CountUp from '@/components/motion/CountUp';
+import Reveal from '@/components/motion/Reveal';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 import { featuredGames } from '@/lib/games';
 import { foundingStudios, memberStudios, studioCount } from '@/lib/studios';
+
+const atlasStats = [
+  { n: 44, suffix: '', label: 'Ghana records mapped', color: 'var(--gold)', tintNumber: true },
+  { n: 12, suffix: '+', label: 'Countries covered', color: 'var(--gold)' },
+  { n: 57, suffix: '+', label: 'Studios continent-wide', color: 'var(--green)' },
+  { n: 94, suffix: '+', label: 'Projects documented', color: 'var(--gold)' },
+];
+
+const eventTeasers = [
+  {
+    date: 'Q4 2026',
+    title: 'GAG Showcase & Investor Night',
+    body: "Ghana's studios present their latest titles to partners, publishers and investors.",
+    em: 'Details coming soon.',
+    status: 'up' as const,
+    statusLabel: 'Upcoming',
+  },
+  {
+    date: '2024',
+    title: 'Global Game Jam · Accra',
+    body: "Ghanaian developers joined the world's largest game-creation event, building playable games in 48 hours.",
+    status: 'past' as const,
+    statusLabel: 'Past',
+  },
+  {
+    date: 'Aug 2022',
+    title: 'GAG Inaugural Gathering',
+    body: 'The founding of the association, convened by the community and chaired by Eyram Tawia of Leti Arts.',
+    status: 'past' as const,
+    statusLabel: 'Past',
+  },
+];
 
 export default function HomePage() {
   return (
@@ -14,17 +50,21 @@ export default function HomePage() {
       {/* HERO */}
       <section className="hero">
         <div className="container hero-grid">
-          <div>
-            <FlagRule className="reveal" />
-            <p className="eyebrow reveal d1" style={{ marginTop: 22 }}>
+          <Stagger stagger={0.1}>
+            <StaggerItem>
+              <FlagRule />
+            </StaggerItem>
+            <StaggerItem as="p" className="eyebrow" style={{ marginTop: 22 }}>
               Gamers · Est. Accra 2022
-            </p>
-            <h1 className="display balance reveal d1">Ghana is building Africa&apos;s next great games industry.</h1>
-            <p className="lead pretty reveal d2">
+            </StaggerItem>
+            <StaggerItem>
+              <h1 className="display balance">Ghana is building Africa&apos;s next great games industry.</h1>
+            </StaggerItem>
+            <StaggerItem as="p" className="lead pretty">
               The Game Developers Association of Ghana unites the studios, creators and titles turning a young scene
               into a serious industry and putting Ghana on the map as a powerhouse of African game development.
-            </p>
-            <div className="hero-cta reveal d3">
+            </StaggerItem>
+            <StaggerItem className="hero-cta">
               <Link href="/studios" className="btn btn--primary">
                 Meet the studios
                 <ArrowIcon />
@@ -32,48 +72,52 @@ export default function HomePage() {
               <Link href="/about#partner" className="btn btn--ghost">
                 Partner &amp; invest
               </Link>
-            </div>
-          </div>
-          <div className="hero-visual reveal d2" aria-hidden="true">
-            <div className="hero-glow" />
-            <GagMarkLarge />
-          </div>
+            </StaggerItem>
+          </Stagger>
+          <HeroVisual />
         </div>
       </section>
 
       {/* STAT BAND */}
       <section className="container" style={{ marginBottom: 'clamp(40px,6vw,80px)' }}>
-        <div className="stat-band reveal">
-          <div className="stat">
-            <div className="n">{studioCount}</div>
-            <div className="l">Studios in the network</div>
-          </div>
-          <div className="stat">
+        <Stagger className="stat-band" stagger={0.07}>
+          <StaggerItem className="stat">
             <div className="n">
-              20<b>+</b>
+              <CountUp to={studioCount} />
+            </div>
+            <div className="l">Studios in the network</div>
+          </StaggerItem>
+          <StaggerItem className="stat">
+            <div className="n">
+              <CountUp to={20} />
+              <b>+</b>
             </div>
             <div className="l">Games &amp; interactive titles</div>
-          </div>
-          <div className="stat">
-            <div className="n">44</div>
+          </StaggerItem>
+          <StaggerItem className="stat">
+            <div className="n">
+              <CountUp to={44} />
+            </div>
             <div className="l">Ghana records on Warped Atlas</div>
-          </div>
-          <div className="stat">
+          </StaggerItem>
+          <StaggerItem className="stat">
             <div className="n">’22</div>
             <div className="l">Association founded, Accra</div>
-          </div>
-        </div>
+          </StaggerItem>
+        </Stagger>
       </section>
 
       {/* MISSION */}
       <section className="section section--alt">
         <div className="container grid cols-2" style={{ alignItems: 'center', gap: 56 }}>
           <div>
-            <p className="eyebrow reveal">The mission</p>
-            <h2 className="h2 balance reveal d1" style={{ margin: '16px 0 22px' }}>
+            <Reveal as="p" className="eyebrow">
+              The mission
+            </Reveal>
+            <Reveal as="h2" className="h2 balance" delay={0.06} style={{ margin: '16px 0 22px' }}>
               One voice for the people who make games in Ghana.
-            </h2>
-            <div className="prose reveal d2">
+            </Reveal>
+            <Reveal className="prose" delay={0.12}>
               <p>
                 GAG is the industry body for Ghana&apos;s game makers, programmers, artists, designers, audio pros,
                 streamers and studio founders. We exist to help the ecosystem network, grow professionally, and speak
@@ -84,21 +128,21 @@ export default function HomePage() {
                 grants. Our job is to connect that talent to capital and opportunity, and to show the world what a
                 Ghanaian games industry can become.
               </p>
-            </div>
-            <div className="reveal d3" style={{ marginTop: 26 }}>
+            </Reveal>
+            <Reveal delay={0.18} style={{ marginTop: 26 }}>
               <Link href="/about" className="link-arrow">
                 Read our story
                 <ArrowIcon />
               </Link>
-            </div>
+            </Reveal>
           </div>
-          <div className="reveal d2">
+          <Reveal delay={0.12}>
             <blockquote className="pull">
-              Africa doesn&apos;t need permission to make world-class games. We just need to build together.
+              Africa doesn&apos;t need permission to make world-class games. We just need to build, together.
               <cite>The GAG charter · Accra, 2022</cite>
             </blockquote>
             <Glyphs style={{ marginTop: 34 }} />
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -107,56 +151,64 @@ export default function HomePage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow eyebrow--green reveal">The founding studios</p>
-              <h2 className="h2 balance reveal d1">The four studios that started the movement.</h2>
+              <Reveal as="p" className="eyebrow eyebrow--green">
+                The founding studios
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                The four studios that started the movement.
+              </Reveal>
             </div>
-            <Link href="/studios" className="link-arrow reveal d1">
-              All {studioCount} studios
-              <ArrowIcon />
-            </Link>
+            <Reveal delay={0.06}>
+              <Link href="/studios" className="link-arrow">
+                All {studioCount} studios
+                <ArrowIcon />
+              </Link>
+            </Reveal>
           </div>
 
-          <div className="logo-wall founding reveal">
+          <Stagger className="logo-wall founding" stagger={0.09}>
             {foundingStudios.map((studio) => (
-              <StudioLogo
-                key={studio.slug}
-                slug={studio.slug}
-                name={studio.name}
-                logo={studio.logo}
-                invertLight={studio.invertLight}
-                href="/studios"
-                sizes="240px"
-                fallback={
-                  <>
-                    <StudioPlaceholderMark shape={studio.placeholder} />
-                    <span className="lname">{studio.wallName}</span>
-                  </>
-                }
-              />
-            ))}
-          </div>
-
-          <div className="studios-split">
-            <p className="eyebrow reveal" style={{ marginBottom: 30 }}>
-              Member studios · the wider network
-            </p>
-            <div className="logo-wall members reveal">
-              {memberStudios.map((studio) => (
+              <StaggerItem key={studio.slug} variant="card">
                 <StudioLogo
-                  key={studio.slug}
                   slug={studio.slug}
                   name={studio.name}
                   logo={studio.logo}
                   invertLight={studio.invertLight}
                   href="/studios"
-                  sizes="180px"
-                  fallback={<span className="lname">{studio.wallName}</span>}
+                  sizes="240px"
+                  fallback={
+                    <>
+                      <StudioPlaceholderMark shape={studio.placeholder} />
+                      <span className="lname">{studio.wallName}</span>
+                    </>
+                  }
                 />
+              </StaggerItem>
+            ))}
+          </Stagger>
+
+          <div className="studios-split">
+            <Reveal as="p" className="eyebrow" style={{ marginBottom: 30 }}>
+              Member studios · the wider network
+            </Reveal>
+            <Stagger className="logo-wall members" stagger={0.05}>
+              {memberStudios.map((studio) => (
+                <StaggerItem key={studio.slug} variant="card">
+                  <StudioLogo
+                    slug={studio.slug}
+                    name={studio.name}
+                    logo={studio.logo}
+                    invertLight={studio.invertLight}
+                    href="/studios"
+                    sizes="180px"
+                    fallback={<span className="lname">{studio.wallName}</span>}
+                  />
+                </StaggerItem>
               ))}
-            </div>
-            <p className="logo-note reveal">
-              <Link href="/about#join">Add your studio </Link>
-            </p>
+            </Stagger>
+            <Reveal as="p" className="logo-note">
+              <Link href="/about#join">Add your studio</Link>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -166,26 +218,32 @@ export default function HomePage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow reveal">Made in Ghana</p>
-              <h2 className="h2 balance reveal d1">The creativity, on screen.</h2>
+              <Reveal as="p" className="eyebrow">
+                Made in Ghana
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                The creativity, on screen.
+              </Reveal>
             </div>
-            <Link href="/games" className="link-arrow reveal d1">
-              Explore all games
-              <ArrowIcon />
-            </Link>
+            <Reveal delay={0.06}>
+              <Link href="/games" className="link-arrow">
+                Explore all games
+                <ArrowIcon />
+              </Link>
+            </Reveal>
           </div>
-          <div className="grid cols-3">
-            {featuredGames.map((game, i) => (
-              <GameCard key={game.title} game={game} className={`reveal${i > 0 ? ` d${i}` : ''}`} />
+          <Stagger className="games-grid" stagger={0.08}>
+            {featuredGames.map((game) => (
+              <GameCard key={game.title} game={game} />
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* WARPED ATLAS BAND */}
       <section className="section">
         <div className="container">
-          <div className="band band--ink reveal">
+          <Reveal className="band band--ink">
             <div className="grid cols-2" style={{ alignItems: 'center', gap: 44 }}>
               <div>
                 <Image
@@ -219,8 +277,9 @@ export default function HomePage() {
                   </a>
                 </div>
               </div>
-              <div
+              <Stagger
                 className="grid cols-2"
+                stagger={0.08}
                 style={{
                   gap: 1,
                   background: 'color-mix(in oklab,currentColor 16%,transparent)',
@@ -228,30 +287,25 @@ export default function HomePage() {
                   overflow: 'hidden',
                 }}
               >
-                {[
-                  { n: '44', accent: undefined, label: 'Ghana records mapped', color: 'var(--gold)' },
-                  { n: '12', accent: '+', label: 'Countries covered', color: 'var(--gold)' },
-                  { n: '57', accent: '+', label: 'Studios continent-wide', color: 'var(--green)' },
-                  { n: '94', accent: '+', label: 'Projects documented', color: 'var(--gold)' },
-                ].map((item) => (
-                  <div
+                {atlasStats.map((item) => (
+                  <StaggerItem
                     key={item.label}
                     style={{ padding: '26px 22px', background: 'color-mix(in oklab,currentColor 7%,transparent)' }}
                   >
                     <div className="stat">
-                      <div className="n" style={item.accent ? undefined : { color: item.color }}>
-                        {item.n}
-                        {item.accent && <b style={{ color: item.color }}>{item.accent}</b>}
+                      <div className="n" style={item.tintNumber ? { color: item.color } : undefined}>
+                        <CountUp to={item.n} />
+                        {item.suffix && <b style={{ color: item.color }}>{item.suffix}</b>}
                       </div>
                       <div className="l" style={{ color: 'color-mix(in oklab,currentColor 66%,transparent)' }}>
                         {item.label}
                       </div>
                     </div>
-                  </div>
+                  </StaggerItem>
                 ))}
-              </div>
+              </Stagger>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -260,67 +314,55 @@ export default function HomePage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow eyebrow--green reveal">The community, in the room</p>
-              <h2 className="h2 balance reveal d1">Game jams, showcases &amp; meetups.</h2>
+              <Reveal as="p" className="eyebrow eyebrow--green">
+                The community, in the room
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                Game jams, showcases &amp; meetups.
+              </Reveal>
             </div>
-            <Link href="/events" className="link-arrow reveal d1">
-              All events &amp; gallery
-              <ArrowIcon />
-            </Link>
+            <Reveal delay={0.06}>
+              <Link href="/events" className="link-arrow">
+                All events &amp; gallery
+                <ArrowIcon />
+              </Link>
+            </Reveal>
           </div>
-          <div className="reveal">
-            <div className="event-row" style={{ borderTop: 0 }}>
-              <div className="date">Q4 2026</div>
-              <div>
-                <h3>GAG Showcase &amp; Investor Night</h3>
-                <p>
-                  Ghana&apos;s studios present their latest titles to partners, publishers and investors.{' '}
-                  <em>Details coming soon.</em>
-                </p>
-              </div>
-              <span className="status-pill up">Upcoming</span>
-            </div>
-            <div className="event-row">
-              <div className="date">2024</div>
-              <div>
-                <h3>Global Game Jam · Accra</h3>
-                <p>
-                  Ghanaian developers joined the world&apos;s largest game-creation event, building playable games in 48
-                  hours.
-                </p>
-              </div>
-              <span className="status-pill past">Past</span>
-            </div>
-            <div className="event-row">
-              <div className="date">Aug 2022</div>
-              <div>
-                <h3>GAG Inaugural Gathering</h3>
-                <p>
-                  The founding of the association, convened by the community and chaired by Eyram Tawia of Leti Arts.
-                </p>
-              </div>
-              <span className="status-pill past">Past</span>
-            </div>
-          </div>
+          <Stagger stagger={0.09}>
+            {eventTeasers.map((event, i) => (
+              <StaggerItem key={event.title} className="event-row" style={i === 0 ? { borderTop: 0 } : undefined}>
+                <div className="date">{event.date}</div>
+                <div>
+                  <h3>{event.title}</h3>
+                  <p>
+                    {event.body} {event.em && <em>{event.em}</em>}
+                  </p>
+                </div>
+                <span className={`status-pill ${event.status}`}>{event.statusLabel}</span>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 
       {/* INVESTOR CTA */}
       <section className="section">
         <div className="container">
-          <div className="reveal" style={{ textAlign: 'center', maxWidth: 760, marginInline: 'auto' }}>
-            <Glyphs style={{ justifyContent: 'center', marginBottom: 26 }} />
-            <p className="eyebrow" style={{ justifyContent: 'center' }}>
+          <Stagger stagger={0.08} style={{ textAlign: 'center', maxWidth: 760, marginInline: 'auto' }}>
+            <StaggerItem>
+              <Glyphs style={{ justifyContent: 'center', marginBottom: 26 }} />
+            </StaggerItem>
+            <StaggerItem as="p" className="eyebrow" style={{ justifyContent: 'center' }}>
               For investors &amp; partners
-            </p>
-            <h2 className="h2 balance" style={{ margin: '18px 0 20px' }}>
+            </StaggerItem>
+            <StaggerItem as="h2" className="h2 balance" style={{ margin: '18px 0 20px' }}>
               The momentum is here. Get in early.
-            </h2>
-            <p className="lead" style={{ marginInline: 'auto', textAlign: 'center' }}>
+            </StaggerItem>
+            <StaggerItem as="p" className="lead" style={{ marginInline: 'auto', textAlign: 'center' }}>
               Ghana has the talent, the culture and the ambition to lead African game development. What the industry
               needs now is capital, distribution and belief. That&apos;s where you come in.
-            </p>
-            <div className="hero-cta" style={{ justifyContent: 'center', marginTop: 30 }}>
+            </StaggerItem>
+            <StaggerItem className="hero-cta" style={{ justifyContent: 'center', marginTop: 30 }}>
               <Link href="/about#partner" className="btn btn--primary">
                 Partner with GAG
                 <ArrowIcon />
@@ -328,8 +370,8 @@ export default function HomePage() {
               <Link href="/studios" className="btn btn--ghost">
                 Browse the studios
               </Link>
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
     </>
