@@ -6,6 +6,8 @@ import cityquestDark from '@/assets/studios/cityquest-africa-dark.png';
 import cityquestLight from '@/assets/studios/cityquest-africa-light.png';
 import dobiisonDark from '@/assets/studios/dobiison-dark.jpg';
 import dobiisonLight from '@/assets/studios/dobiison-light.png';
+import dumsorDark from '@/assets/studios/dumsor-games-dark.png';
+import dumsorLight from '@/assets/studios/dumsor-games-light.png';
 import dusuDark from '@/assets/studios/dusu-studios-dark.png';
 import dusuLight from '@/assets/studios/dusu-studios-light.png';
 import kofiroDark from '@/assets/studios/kofiro-dark.webp';
@@ -18,6 +20,7 @@ import ogamesDark from '@/assets/studios/ogames-studio-dark.png';
 import ogamesLight from '@/assets/studios/ogames-studio-light.png';
 import khaosDark from '@/assets/studios/organized-khaos-dark.jpg';
 import khaosLight from '@/assets/studios/organized-khaos-light.png';
+import playWarpedMark from '@/assets/studios/play-warped.png';
 import reluDark from '@/assets/studios/relu-interactives-dark.png';
 import reluLight from '@/assets/studios/relu-interactives-light.png';
 
@@ -36,6 +39,8 @@ type StudioBase = {
   wallName: string;
   /** Two-letter fallback used where no artwork exists. */
   initials: string;
+  /** The studio's own site. Logo tiles link here when set. */
+  url?: string;
   logo?: StudioLogo;
   /** Mono white-on-black artwork with no light variant: invert it in light theme. */
   invertLight?: boolean;
@@ -64,6 +69,7 @@ export const foundingStudios: FoundingStudio[] = [
     name: 'Leti Arts',
     wallName: 'Leti Arts',
     initials: 'LA',
+    url: 'https://www.letiarts.com/',
     logo: { light: letiLight, dark: letiDark },
     placeholder: 'circle',
     badge: 'Since 2009',
@@ -81,6 +87,7 @@ export const foundingStudios: FoundingStudio[] = [
     name: 'Relu Interactives',
     wallName: 'Relu Interactives',
     initials: 'RI',
+    url: 'https://reluinteractives.com/',
     logo: { light: reluLight, dark: reluDark },
     placeholder: 'square',
     badge: 'Presidential Pitch ’23',
@@ -98,6 +105,7 @@ export const foundingStudios: FoundingStudio[] = [
     name: 'Organized Khaos Studios',
     wallName: 'Organized Khaos',
     initials: 'OK',
+    url: 'https://organizedkhaosgh.com/',
     logo: { light: khaosLight, dark: khaosDark },
     placeholder: 'x',
     badge: 'Unity for Humanity ’26',
@@ -111,19 +119,21 @@ export const foundingStudios: FoundingStudio[] = [
     ],
   },
   {
-    slug: 'ogames-studio',
-    name: 'OGames Studio',
-    wallName: 'OGames Studio',
-    initials: 'OG',
-    logo: { light: ogamesLight, dark: ogamesDark },
+    slug: 'play-warped',
+    name: 'Play.warped',
+    wallName: 'Play.warped',
+    initials: 'PW',
+    // one white-on-transparent mark, inverted in the light theme
+    logo: { light: playWarpedMark, dark: playWarpedMark },
+    invertLight: true,
     placeholder: 'triangle',
-    badge: 'Presidential Pitch ’24',
-    role: 'Accra, Ghana · African heritage games',
-    bio: 'OGames Studio blends technology with storytelling to build games rooted in African cultural heritage, working toward the goal of a 100% Ghanaian-developed open-world game. Alongside its titles it runs educational initiatives for young developers, and has won a GH₵110,000 prize at the 2024 Presidential Pitch and a $25,000 grant at African Skills Week 2024.',
-    chips: ['Open world', 'Heritage', 'Education'],
+    badge: 'Founding member',
+    role: 'Ghana · Play & discovery initiative',
+    bio: "A play and discovery initiative connecting Ghana's games to players and to the wider Warped Atlas ecosystem. Its work sits between the studios and the audience, surfacing what's being made here and giving new titles a route to the people who want to play them.",
+    chips: ['Community', 'Discovery', 'Ecosystem'],
     meta: [
-      { k: 'Notable', v: 'Tales from the Baobab' },
-      { k: 'Focus', v: 'Cultural storytelling' },
+      { k: 'Focus', v: 'Play & discovery' },
+      { k: 'Ecosystem', v: 'Warped Atlas' },
       { k: 'Founded', v: '—' },
     ],
   },
@@ -131,10 +141,22 @@ export const foundingStudios: FoundingStudio[] = [
 
 export const memberStudios: MemberStudio[] = [
   {
+    slug: 'ogames-studio',
+    name: 'OGames Studio',
+    wallName: 'OGames Studio',
+    initials: 'OG',
+    url: 'https://www.ogamesstudio.com/',
+    logo: { light: ogamesLight, dark: ogamesDark },
+    role: 'Accra · African heritage games',
+    bio: 'Blends technology with storytelling to build games rooted in African cultural heritage, working toward a 100% Ghanaian-developed open world. Winner of the 2024 Presidential Pitch.',
+    chip: { background: 'var(--gold)', color: 'var(--ink)' },
+  },
+  {
     slug: 'mills-media',
     name: 'Mills Media',
     wallName: 'Mills Media',
     initials: 'MM',
+    url: 'https://millsmedia.co/',
     logo: { light: millsLight, dark: millsDark },
     role: 'Accra · Animation & games',
     bio: 'Animation and game-development studio producing original interactive and animated work out of Accra.',
@@ -145,6 +167,7 @@ export const memberStudios: MemberStudio[] = [
     name: 'CityQuest Africa',
     wallName: 'CityQuest Africa',
     initials: 'CQ',
+    url: 'https://www.cityquest.africa/',
     logo: { light: cityquestLight, dark: cityquestDark },
     role: 'Accra · Location-based media',
     bio: 'Building location-based, interactive media experiences that turn real places into playable spaces.',
@@ -155,6 +178,7 @@ export const memberStudios: MemberStudio[] = [
     name: 'DOBIISON',
     wallName: 'DOBIISON',
     initials: 'DB',
+    url: 'https://dobiison.com/',
     logo: { light: dobiisonLight, dark: dobiisonDark },
     role: 'Accra · Immersive media',
     bio: 'An immersive-media studio exploring interactive and experiential formats for African audiences.',
@@ -165,68 +189,73 @@ export const memberStudios: MemberStudio[] = [
     name: 'Play233',
     wallName: 'Play233',
     initials: 'P2',
+    url: 'https://iplay233.com/',
     role: 'Accra · Games & services',
     bio: 'Interactive-media and game-services studio supporting the Ghanaian ecosystem end to end.',
     chip: { background: 'var(--gold)', color: 'var(--ink)' },
-  },
-  {
-    slug: 'worldrunner-visuals',
-    name: 'Worldrunner Visuals',
-    wallName: 'Worldrunner Visuals',
-    initials: 'WV',
-    role: 'Ghana · Games & animation',
-    bio: 'Game development, animation and music-visualiser work with a strong visual signature.',
-    chip: { background: 'var(--accent)' },
-  },
-  {
-    slug: 'kofiro',
-    name: 'Kofiro',
-    wallName: 'Kofiro',
-    initials: 'KF',
-    logo: { light: kofiroLight, dark: kofiroDark },
-    role: 'Accra · Game development',
-    bio: "An Accra-based game studio documented as part of Ghana's growing development community.",
-    chip: { background: 'var(--green)' },
   },
   {
     slug: 'bawala-studios',
     name: 'Bawala Studios',
     wallName: 'Bawala Studios',
     initials: 'BW',
+    url: 'https://bawalastudios.com/',
     logo: { light: bawalaLight, dark: bawalaDark },
     role: 'Ghana · Game development',
     bio: "An independent game-development studio contributing to Ghana's interactive-media scene.",
     chip: { background: 'var(--ink)' },
   },
   {
+    slug: 'dumsor-games',
+    name: 'Dumsor Games',
+    wallName: 'Dumsor Games',
+    initials: 'DG',
+    url: 'https://dumsorgames.itch.io/',
+    logo: { light: dumsorLight, dark: dumsorDark },
+    role: 'Ghana · Browser games',
+    bio: 'A few game devs from Ghana who love to make games as much as they love to play them, shipping browser titles like Shooting Cell and Ninja Run.',
+    chip: { background: 'var(--accent)' },
+  },
+  {
     slug: 'dusu-studios',
     name: 'Dusu Studios',
     wallName: 'Dusu Studios',
     initials: 'DS',
+    url: 'https://www.dusustudios.com/',
     logo: { light: dusuLight, dark: dusuDark },
     invertLight: true,
     role: 'Ghana · Game development',
     bio: 'A game studio part of the documented Ghana network profile expanding as we grow.',
     chip: { background: 'var(--gold)', color: 'var(--ink)' },
   },
+];
+
+/**
+ * Independent developers — solo and very small teams. Listed separately from
+ * the member studios but counted in the network total.
+ */
+export const indieStudios: MemberStudio[] = [
+  {
+    slug: 'kofiro',
+    name: 'Kofiro',
+    wallName: 'Kofiro',
+    initials: 'KF',
+    url: 'https://kofiro.com/',
+    logo: { light: kofiroLight, dark: kofiroDark },
+    role: 'Accra · Mobile games & apps',
+    bio: 'A prolific solo developer with a deep catalogue of mobile titles, from logic puzzles and arcade games to a VR space racer.',
+    chip: { background: 'var(--green)' },
+  },
   {
     slug: 'kwame-opare-asiedu',
     name: 'Kwame Opare Asiedu',
     wallName: 'Kwame Opare Asiedu',
     initials: 'KO',
+    url: 'https://github.com/kwameopareasiedu',
     role: 'Accra · Independent developer',
     bio: 'An independent Accra-based game developer building original interactive projects.',
     chip: { background: 'var(--accent)' },
   },
-  {
-    slug: 'play-warped',
-    name: 'Play.warped',
-    wallName: 'Play.warped',
-    initials: 'PW',
-    role: 'Ghana · Community initiative',
-    bio: "A play & discovery initiative connecting Ghana's games to the wider Warped Atlas ecosystem.",
-    chip: { background: 'var(--green)' },
-  },
 ];
 
-export const studioCount = foundingStudios.length + memberStudios.length;
+export const studioCount = foundingStudios.length + memberStudios.length + indieStudios.length;

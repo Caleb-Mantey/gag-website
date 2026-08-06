@@ -59,8 +59,7 @@ export default function GameCard({ game, hidden, sizes = '(min-width:940px) 33vw
   const onEnter = () => setHovered(true);
   const onLeave = () => setHovered(false);
 
-  return (
-    <motion.article variants={staggerCard} hidden={hidden} style={{ minWidth: 0 }}>
+  const card = (
       <motion.div
         className="game-card"
         variants={CARD}
@@ -148,6 +147,23 @@ export default function GameCard({ game, hidden, sizes = '(min-width:940px) 33vw
           </motion.div>
         </div>
       </motion.div>
+  );
+
+  return (
+    <motion.article variants={staggerCard} hidden={hidden} style={{ minWidth: 0 }}>
+      {game.url ? (
+        <a
+          href={game.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'block' }}
+          aria-label={`${game.title} by ${game.studio} — opens the studio's site`}
+        >
+          {card}
+        </a>
+      ) : (
+        card
+      )}
     </motion.article>
   );
 }

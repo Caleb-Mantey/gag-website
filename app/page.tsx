@@ -2,15 +2,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import warpedAtlasLogo from '@/assets/warped-atlas-white.png';
-import GameCard from '@/components/GameCard';
+import EngineShowcase from '@/components/EngineShowcase';
+import FeaturedGames from '@/components/FeaturedGames';
 import HeroVisual from '@/components/HeroVisual';
 import StudioLogo from '@/components/StudioLogo';
 import { ArrowIcon, FlagRule, Glyphs, StudioPlaceholderMark } from '@/components/icons';
 import CountUp from '@/components/motion/CountUp';
 import Reveal from '@/components/motion/Reveal';
 import { Stagger, StaggerItem } from '@/components/motion/Stagger';
+import { engines } from '@/lib/engines';
 import { featuredGames } from '@/lib/games';
-import { foundingStudios, memberStudios, studioCount } from '@/lib/studios';
+import { partners } from '@/lib/partners';
+import { foundingStudios, indieStudios, memberStudios, studioCount } from '@/lib/studios';
 
 const atlasStats = [
   { n: 44, suffix: '', label: 'Ghana records mapped', color: 'var(--gold)', tintNumber: true },
@@ -174,7 +177,8 @@ export default function HomePage() {
                   name={studio.name}
                   logo={studio.logo}
                   invertLight={studio.invertLight}
-                  href="/studios"
+                  href={studio.url ?? '/studios'}
+                  external={Boolean(studio.url)}
                   sizes="240px"
                   fallback={
                     <>
@@ -199,7 +203,8 @@ export default function HomePage() {
                     name={studio.name}
                     logo={studio.logo}
                     invertLight={studio.invertLight}
-                    href="/studios"
+                    href={studio.url ?? '/studios'}
+                    external={Boolean(studio.url)}
                     sizes="180px"
                     fallback={<span className="lname">{studio.wallName}</span>}
                   />
@@ -209,6 +214,53 @@ export default function HomePage() {
             <Reveal as="p" className="logo-note">
               <Link href="/about#join">Add your studio</Link>
             </Reveal>
+          </div>
+
+          <div className="studios-split">
+            <Reveal as="p" className="eyebrow" style={{ marginBottom: 30 }}>
+              Independent developers
+            </Reveal>
+            <Stagger className="logo-wall members" stagger={0.06}>
+              {indieStudios.map((studio) => (
+                <StaggerItem key={studio.slug} variant="card">
+                  <StudioLogo
+                    slug={studio.slug}
+                    name={studio.name}
+                    logo={studio.logo}
+                    invertLight={studio.invertLight}
+                    href={studio.url ?? '/studios'}
+                    external={Boolean(studio.url)}
+                    sizes="180px"
+                    fallback={<span className="lname">{studio.wallName}</span>}
+                  />
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
+
+          <div className="studios-split">
+            <Reveal as="p" className="eyebrow eyebrow--gold" style={{ marginBottom: 10 }}>
+              Ecosystem partners · news &amp; media
+            </Reveal>
+            <Reveal as="p" className="text-muted measure" delay={0.06} style={{ marginBottom: 24, fontSize: 15 }}>
+              Beyond the studios, we work hand in hand with the people telling the industry&apos;s story.
+            </Reveal>
+            <Stagger className="logo-wall partners" stagger={0.06}>
+              {partners.map((partner) => (
+                <StaggerItem key={partner.slug} variant="card">
+                  <StudioLogo
+                    slug={partner.slug}
+                    name={partner.name}
+                    logo={partner.logo}
+                    invertLight={partner.invertLight}
+                    href={partner.url}
+                    external
+                    sizes="230px"
+                    fallback={<span className="lname">{partner.wallName}</span>}
+                  />
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
         </div>
       </section>
@@ -232,11 +284,27 @@ export default function HomePage() {
               </Link>
             </Reveal>
           </div>
-          <Stagger className="games-grid" stagger={0.08}>
-            {featuredGames.map((game) => (
-              <GameCard key={game.title} game={game} />
-            ))}
-          </Stagger>
+          <FeaturedGames initial={featuredGames} />
+        </div>
+      </section>
+
+      {/* ENGINES & CREATOR TOOLS */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <Reveal as="p" className="eyebrow eyebrow--gold">
+                The tools behind the games
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                Ghana isn&apos;t only making games. It&apos;s making the engines.
+              </Reveal>
+            </div>
+            <Reveal as="p" className="text-muted" delay={0.06} style={{ fontSize: 15, maxWidth: '34ch' }}>
+              Two members are building the layer underneath: the tools other developers will ship on.
+            </Reveal>
+          </div>
+          <EngineShowcase engines={engines} />
         </div>
       </section>
 

@@ -16,6 +16,8 @@ type Props = {
   fallback: ReactNode;
   /** Rendering the tile as a link (home logo wall) instead of a plain tile. */
   href?: string;
+  /** Opens `href` in a new tab — for partners linking off-site. */
+  external?: boolean;
   /** CSS `sizes` hint so Next serves an appropriately small image. */
   sizes: string;
   /** Load without waiting for the viewport (above-the-fold tiles). */
@@ -35,6 +37,7 @@ export default function StudioLogo({
   className,
   fallback,
   href,
+  external,
   sizes,
   priority,
 }: Props) {
@@ -53,7 +56,13 @@ export default function StudioLogo({
 
   if (href) {
     return (
-      <Link className={classes} href={href} data-slug={slug} aria-label={name}>
+      <Link
+        className={classes}
+        href={href}
+        data-slug={slug}
+        aria-label={name}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
         {body}
       </Link>
     );

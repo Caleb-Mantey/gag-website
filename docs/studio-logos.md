@@ -48,12 +48,39 @@ theme, so switching themes is instant and needs no JavaScript.
   (`object-fit: contain`), so generous transparent padding inside the source
   file makes the mark read smaller than its neighbours.
 
+## Ecosystem partners
+
+Partners aren't studios — they live in [`lib/partners.ts`](../lib/partners.ts)
+with artwork in `assets/partners/`, and are excluded from `studioCount` and the
+studio directory. Everything else (naming, theme variants, blend keying) works
+exactly the same.
+
+> **Play.warped** — the supplied mark is byte-identical to the Warped Atlas
+> white logo, so the founding wall and the Warped Atlas band on the home page
+> show the same artwork. It's stored once as `play-warped.png` and inverted for
+> the light theme via `invertLight`. Swap in a distinct Play.warped mark if one
+> exists.
+
+> **Dumsor Games** — supplied as a single JPEG (black linework on a near-white
+> artboard). Both variants were generated from it: the artboard keyed to
+> transparent, and for the dark variant the black linework recoloured white
+> while the coloured face buttons were left alone.
+
+> **Gasbros Gaming Network** — the supplied `dark.jpeg` was a broken export: a
+> white wordmark on a `#f7f7f7` background, so no blend mode or colour key can
+> separate the two. The variants in `assets/partners/` were rebuilt from the
+> clean `light.jpeg` — background keyed to transparent, and the wordmark forced
+> white for the dark variant (the artwork has a 12px empty gutter between mark
+> and wordmark, so the split is exact). If Gasbros can supply a transparent PNG
+> or SVG of each variant, swap them straight in.
+
 ## Where logos appear
 
 | Surface | Box | Source |
 |---|---|---|
 | Home — founding wall | 236 × 132 | `app/page.tsx` |
 | Home — member wall | 180 × 84 | `app/page.tsx` |
+| Home — partner wall | 230 × 100 | `app/page.tsx` |
 | Studios — flagship panel | 116 × 96 | `app/studios/page.tsx` |
 | Studios — directory card | 132 × 46 | `app/studios/page.tsx` |
 
@@ -62,11 +89,16 @@ Sizes are set in `app/globals.css` under *studio logo wall*.
 ## Slugs
 
 Founding studios: `leti-arts`, `relu-interactives`, `organized-khaos`,
-`ogames-studio`.
+`play-warped`.
 
-Member studios: `mills-media`, `cityquest-africa`, `dobiison`, `play233`,
-`worldrunner-visuals`, `kofiro`, `bawala-studios`, `dusu-studios`,
-`kwame-opare-asiedu`, `play-warped`.
+Member studios: `ogames-studio`, `mills-media`, `cityquest-africa`, `dobiison`,
+`play233`, `bawala-studios`, `dumsor-games`, `dusu-studios`.
 
-Adding a brand-new studio? Add an entry to `memberStudios` in `lib/studios.ts` —
-the home wall, the directory and the studio count all read from that array.
+Independent developers: `kofiro`, `kwame-opare-asiedu`.
+
+Partners: `gasbros-gaming-network`.
+
+`lib/studios.ts` holds three arrays — `foundingStudios`, `memberStudios` and
+`indieStudios` — and the home walls, the studios page and the network total all
+read from them, so adding an entry is the only step. Partners live in
+`lib/partners.ts` and stay outside the studio count.

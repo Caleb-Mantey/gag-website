@@ -41,6 +41,9 @@ export default function Footer() {
               Ghana on Warped Atlas ↗
             </a>
             <Link href="/about#warped">The Warped Atlas collab</Link>
+            <a href="https://gasbrosgamingnetwork.com/" target="_blank" rel="noopener noreferrer">
+              Gasbros Gaming Network ↗
+            </a>
           </div>
         </div>
 

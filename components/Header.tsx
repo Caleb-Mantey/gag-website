@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import ThemeToggle from '@/components/ThemeToggle';
 import { BurgerIcon, CloseIcon, GagMark } from '@/components/icons';
@@ -25,6 +25,31 @@ export default function Header() {
   // reading progress along the bottom edge of the header
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 180, damping: 38, mass: 0.3 });
+
+  /**
+   * The pill behind the active link is placed from the link's offset *inside the
+   * nav*, not with a shared `layoutId`. A layoutId animates between measurements
+   * taken in page coordinates, and on a route change the scroll position jumps at
+   * the same moment — which threw the pill hundreds of pixels down the document
+   * and stretched the scrollable area well past the footer.
+   */
+  const navRef = useRef<HTMLElement>(null);
+  const [pill, setPill] = useState<{ left: number; width: number } | null>(null);
+
+  const placePill = useCallback(() => {
+    const nav = navRef.current;
+    const active = nav?.querySelector<HTMLElement>('a.active');
+    setPill(active ? { left: active.offsetLeft, width: active.offsetWidth } : null);
+  }, []);
+
+  useLayoutEffect(placePill, [placePill, pathname]);
+
+  useEffect(() => {
+    window.addEventListener('resize', placePill);
+    // webfonts land after first paint and change the link widths
+    document.fonts?.ready.then(placePill).catch(() => {});
+    return () => window.removeEventListener('resize', placePill);
+  }, [placePill]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -53,7 +78,20 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className={['nav-links', menuOpen && 'open'].filter(Boolean).join(' ')} aria-label="Primary">
+        <nav
+          className={['nav-links', menuOpen && 'open'].filter(Boolean).join(' ')}
+          aria-label="Primary"
+          ref={navRef}
+        >
+          {pill && (
+            <motion.span
+              className="nav-pill"
+              aria-hidden="true"
+              initial={false}
+              animate={{ x: pill.left, width: pill.width }}
+              transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+            />
+          )}
           {navLinks.map((link) => {
             const active = pathname === link.href;
             return (
@@ -63,14 +101,6 @@ export default function Header() {
                 className={active ? 'active' : undefined}
                 aria-current={active ? 'page' : undefined}
               >
-                {/* one pill that slides from item to item as you navigate */}
-                {active && (
-                  <motion.span
-                    className="nav-pill"
-                    layoutId="nav-pill"
-                    transition={{ type: 'spring', stiffness: 420, damping: 36 }}
-                  />
-                )}
                 {link.label}
               </Link>
             );

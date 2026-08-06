@@ -218,7 +218,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
 .brand .wordmark{ font-family:var(--font-display); font-weight:700; font-size:17px; letter-spacing:-0.03em; line-height:1; }
 .brand .wordmark small{ display:block; font-family:var(--font-mono); font-weight:400; font-size:9.5px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-top:3px; }
 
-.nav-links{ display:flex; align-items:center; gap:2px; }
+.nav-links{ position:relative; display:flex; align-items:center; gap:2px; }
 .nav-links a{
   position:relative; display:inline-flex; align-items:center; justify-content:center;
   font-family:var(--font-display); font-weight:500; font-size:14.5px;
@@ -227,10 +227,12 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
 }
 .nav-links a:hover{ color:var(--fg); }
 .nav-links a.active{ color:var(--fg); }
-/* the pill that slides between items — positioned by motion's layoutId */
+/* the pill that slides between items — positioned from each link's offset
+   inside the nav, so it never depends on the page's scroll position */
 .nav-pill{
-  position:absolute; inset:0; z-index:-1; border-radius:999px;
-  background:color-mix(in oklab, var(--fg) 8%, transparent);
+  position:absolute; left:0; top:50%; height:34px; margin-top:-17px; z-index:-1;
+  border-radius:999px; background:color-mix(in oklab, var(--fg) 8%, transparent);
+  pointer-events:none;
 }
 .nav-actions{ display:flex; align-items:center; gap:10px; }
 
@@ -264,6 +266,8 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
     transition:transform .3s var(--ease), opacity .3s var(--ease);
   }
   .nav-links.open{ transform:none; opacity:1; pointer-events:auto; }
+  .nav-pill{ display:none; }
+  .nav-links a.active{ background:color-mix(in oklab, var(--fg) 8%, transparent); }
   .nav-links a{ font-size:17px; padding:13px 12px; justify-content:flex-start; }
   .nav-burger{ display:grid; }
   .nav-cta-desktop{ display:none; }
@@ -373,6 +377,15 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
 .members .logo-type .lname{ font-size:17px; color:var(--muted); transition:color .3s var(--ease); }
 .members .studio-logo:hover .lname{ color:var(--fg); }
 
+/* ecosystem partners — not studios, so they get their own row and a little
+   more room than a member tile */
+.logo-wall.partners{ grid-template-columns:repeat(1,1fr); }
+@media (min-width:560px){ .logo-wall.partners{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:920px){ .logo-wall.partners{ grid-template-columns:repeat(3,1fr); } }
+.partners .studio-logo{ min-height:168px; }
+.partners .studio-logo .logo-img{ width:100%; max-width:230px; height:100px; }
+.partners .logo-type .lname{ font-family:var(--font-display); font-weight:700; font-size:19px; color:var(--fg); }
+
 .studios-split{ margin-top:clamp(54px,7vw,82px); padding-top:clamp(42px,5vw,58px); border-top:1px solid var(--border); }
 .logo-note{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.02em; color:var(--faint); margin-top:28px; }
 .logo-note a{ color:var(--accent); }
@@ -461,6 +474,142 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
   color:#fff;
 }
 .game-card__play svg{ width:13px; height:13px; margin-left:2px; }
+
+/* ---------- engines & creator tools ---------- */
+/* A rail of full-bleed cards. The artwork carries the section; the type stays
+   small, quiet and legible over it — no plates, no glass, no bordered buttons. */
+.engine-rail-wrap{ position:relative; }
+.engine-rail{
+  display:flex; gap:20px; overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  margin-inline:calc(50% - 50vw);
+  padding-inline:max(28px, calc(50vw - var(--container) / 2));
+  scroll-padding-inline:max(28px, calc(50vw - var(--container) / 2));
+  padding-block:4px 8px;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.engine-rail::-webkit-scrollbar{ display:none; }
+.engine-slide{ flex:0 0 min(820px, 82vw); scroll-snap-align:start; }
+
+.engine-card{
+  position:relative; isolation:isolate; overflow:hidden; height:100%;
+  border-radius:22px; background:var(--bg-2);
+  aspect-ratio:16/10;
+  box-shadow:0 18px 50px oklch(20% 0.02 60 / .14);
+  transition:box-shadow .5s var(--ease);
+}
+:root[data-theme="dark"] .engine-card{ box-shadow:0 18px 50px oklch(0% 0 0 / .5); }
+.engine-card:hover{ box-shadow:0 26px 70px oklch(20% 0.02 60 / .2); }
+
+.engine-card__media{ position:absolute; inset:0; z-index:0; }
+.engine-card__media img,
+.engine-card__media video{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transform:scale(1.02); transition:transform 1.2s var(--ease);
+}
+.engine-card:hover .engine-card__media img,
+.engine-card:hover .engine-card__media video{ transform:scale(1.06); }
+
+/* one smooth fall to black — enough to hold small type without flattening the art */
+.engine-card__scrim{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    linear-gradient(to top,
+      oklch(4% 0.01 60 / .95) 0%,
+      oklch(4% 0.01 60 / .88) 22%,
+      oklch(4% 0.01 60 / .62) 40%,
+      oklch(4% 0.01 60 / .26) 58%,
+      oklch(4% 0.01 60 / .06) 74%),
+    linear-gradient(to bottom, oklch(4% 0.01 60 / .3), transparent 30%);
+}
+
+/* editorial index, top left */
+.engine-card__index{
+  position:absolute; z-index:3; top:22px; left:24px;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; color:oklch(100% 0 0 / .55);
+}
+/* what the gallery is showing, top right — plain type, no pill */
+.engine-card__now{
+  position:absolute; z-index:3; top:20px; right:24px;
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:oklch(100% 0 0 / .72); text-shadow:0 1px 10px oklch(0% 0 0 / .6);
+}
+.engine-card__ticks{ display:flex; gap:4px; }
+.engine-card__ticks span{ width:4px; height:4px; border-radius:50%; background:oklch(100% 0 0 / .35); transition:width .4s var(--ease), background .4s; }
+.engine-card__ticks span.on{ width:14px; border-radius:999px; background:var(--engine-accent); }
+
+.engine-card__content{
+  position:absolute; z-index:3; inset:auto 0 0 0;
+  display:flex; flex-direction:column; align-items:flex-start;
+  padding:clamp(20px,2.6vw,32px);
+  color:#fff; text-shadow:0 1px 12px oklch(0% 0 0 / .45);
+}
+.engine-card__foot{
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  width:100%; margin-top:20px;
+}
+.engine-card__by{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:oklch(100% 0 0 / .55); transition:color .25s;
+}
+.engine-card__by:hover{ color:oklch(100% 0 0 / .9); }
+.engine-card__by strong{ font-weight:500; color:oklch(100% 0 0 / .82); }
+.engine-card__bylogo{ width:auto; height:24px; object-fit:contain; opacity:.92; }
+.engine-card__by:hover .engine-card__bylogo{ opacity:1; }
+
+.engine-card__lockup{ display:flex; align-items:center; gap:12px; }
+.engine-card__mark{
+  flex:none; width:38px; height:38px; border-radius:11px; overflow:hidden;
+  background:oklch(100% 0 0 / .96); display:grid; place-items:center; padding:5px;
+}
+.engine-card__mark img{ width:100%; height:100%; object-fit:contain; }
+.engine-card__name{
+  font-family:var(--font-display); font-weight:600; font-size:clamp(21px,2vw,26px);
+  letter-spacing:-0.03em; line-height:1.05;
+}
+.engine-card__blurb{
+  font-size:14.5px; line-height:1.5; color:oklch(100% 0 0 / .82);
+  max-width:46ch; margin-top:10px;
+}
+.engine-card__meta{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:oklch(100% 0 0 / .58); margin-top:12px;
+}
+/* plain text link — no plate, no border */
+.engine-card__cta{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-display); font-weight:600; font-size:14.5px; letter-spacing:-0.01em;
+  color:#fff; padding-bottom:3px;
+  border-bottom:1.5px solid color-mix(in oklab, var(--engine-accent) 70%, transparent);
+  transition:gap .25s var(--ease), border-color .25s;
+}
+.engine-card__cta:hover{ gap:13px; border-bottom-color:#fff; }
+.engine-card__cta svg{ width:14px; height:14px; }
+
+.engine-rail__dots{ display:flex; gap:9px; justify-content:center; align-items:center; margin-top:28px; }
+.engine-rail__dots button{
+  width:9px; height:9px; padding:0; border:0; border-radius:999px;
+  background:color-mix(in oklab, var(--fg) 22%, transparent);
+  transition:width .5s var(--ease), background .4s var(--ease);
+}
+.engine-rail__dots button:hover{ background:color-mix(in oklab, var(--fg) 40%, transparent); }
+/* the active dot stretches into a pill and takes that engine's colour */
+.engine-rail__dots button.on{ width:38px; }
+
+/* on a phone the copy climbs up the artwork, so the card grows and the scrim follows */
+@media (max-width:760px){
+  .engine-card{ aspect-ratio:auto; min-height:min(74vh, 560px); display:flex; flex-direction:column; }
+  .engine-card__content{ position:relative; inset:auto; margin-top:auto; }
+  .engine-card__scrim{
+    background:linear-gradient(to top,
+      oklch(4% 0.01 60 / .96) 12%,
+      oklch(4% 0.01 60 / .9) 44%,
+      oklch(4% 0.01 60 / .5) 68%,
+      oklch(4% 0.01 60 / .12) 86%);
+  }
+}
 
 /* ---------- pull quote ---------- */
 .pull{
