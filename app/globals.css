@@ -783,6 +783,10 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
 .field--pill{ border-radius:999px; padding:13px 18px; border-color:color-mix(in oklab, currentColor 30%, transparent); }
 textarea.field{ resize:vertical; }
 .form-note{ font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; opacity:.6; text-align:center; }
+.form-honeypot{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+.form-message{ font-family:var(--font-mono); font-size:12px; line-height:1.5; text-align:center; }
+.form-message--success{ color:var(--green); }
+.form-message--error{ color:var(--gold); }
 
 /* ---------- misc ---------- */
 .divider{ height:1px; background:var(--border); border:0; }
