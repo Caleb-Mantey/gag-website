@@ -82,7 +82,7 @@ export default function GamesPage() {
             Want to publish, fund or port a Ghanaian title?
           </StaggerItem>
           <StaggerItem as="p" className="lead" style={{ marginInline: 'auto', textAlign: 'center' }}>
-            GAG can connect you directly to the studios behind these games.
+            GDAG can connect you directly to the studios behind these games.
           </StaggerItem>
           <StaggerItem className="hero-cta" style={{ justifyContent: 'center', marginTop: 26 }}>
             <Link href="/about#partner" className="btn btn--primary">

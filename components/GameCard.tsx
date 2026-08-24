@@ -157,7 +157,7 @@ export default function GameCard({ game, hidden, sizes = '(min-width:940px) 33vw
           target="_blank"
           rel="noopener noreferrer"
           style={{ display: 'block' }}
-          aria-label={`${game.title} by ${game.studio} — opens the studio's site`}
+          aria-label={`${game.title} by ${game.studio} opens the studio's site`}
         >
           {card}
         </a>

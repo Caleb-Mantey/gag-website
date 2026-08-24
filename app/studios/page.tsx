@@ -30,7 +30,7 @@ export default function StudiosPage() {
           </StaggerItem>
           <StaggerItem as="p" className="lead pretty">
             From globally recognised names to emerging indies, these are the teams building games, XR and interactive
-            media in Ghana, many of them documented alongside GAG on Warped Atlas.
+            media in Ghana, many of them documented alongside GDAG on Warped Atlas.
           </StaggerItem>
         </Stagger>
       </section>
@@ -252,7 +252,7 @@ export default function StudiosPage() {
             </p>
             <div className="hero-cta" style={{ justifyContent: 'center', marginTop: 26 }}>
               <Link href="/about#join" className="btn btn--primary">
-                Join GAG
+                Join GDAG
               </Link>
             </div>
           </Reveal>

@@ -16,7 +16,7 @@ const upcoming = [
   {
     pill: 'Upcoming · Q4 2026',
     status: 'up' as const,
-    title: 'GAG Showcase & Investor Night',
+    title: 'GDAG Showcase & Investor Night',
     body: "Ghana's studios present their latest titles to publishers, partners and investors, the flagship moment to see the industry's momentum first-hand.",
     when: 'Accra · Date & venue TBA',
   },
@@ -24,7 +24,7 @@ const upcoming = [
     pill: 'Planned · 2027',
     status: 'up' as const,
     title: 'Global Game Jam · Ghana',
-    body: "GAG hosts Ghana's site for the world's largest game-creation event, 48 hours, one theme, dozens of new playable games.",
+    body: "GDAG hosts Ghana's site for the world's largest game-creation event, 48 hours, one theme, dozens of new playable games.",
     when: 'Accra · January 2027',
   },
   {
@@ -36,7 +36,13 @@ const upcoming = [
   },
 ];
 
-const milestones = [
+const milestones: Array<{ date: string; title: string; body: string; href?: string }> = [
+  {
+    date: 'Aug 2025',
+    title: 'Gamescom · Cologne',
+    body: "The Game Developers Association of Ghana joined the global games industry at Gamescom 2025, representing Ghana's growing development community, showcasing African-made games and building connections with creators and partners from around the world.",
+    href: 'https://photos.google.com/share/AF1QipOp0nJlXEmQIt4jJo44uUGQvQ5s8mG7AoV4zEQVeDJ8jwSS9U04gnqvgheEa-96SQ?key=dGxRZDVTcTBoNEJpWGJVX1RCOVZSRjFGTl90ekdB',
+  },
   {
     date: '2024',
     title: 'Global Game Jam · Accra',
@@ -49,7 +55,7 @@ const milestones = [
   },
   {
     date: 'Aug 2022',
-    title: 'GAG Inaugural Gathering',
+    title: 'GDAG Inaugural Gathering',
     body: 'The founding of the Game Developers Association of Ghana, convened by the community and chaired by Eyram Tawia, CEO of Leti Arts, with support from Ambitious Ghana.',
   },
 ];
@@ -127,13 +133,26 @@ export default function EventsPage() {
           </Reveal>
           <Stagger stagger={0.09}>
             {milestones.map((item, i) => (
-              <StaggerItem className="event-row" key={item.title} style={i === 0 ? { borderTop: 0 } : undefined}>
+              <StaggerItem
+                className={`event-row ${item.href ? 'event-row--linked' : ''}`.trim()}
+                key={item.title}
+                style={i === 0 ? { borderTop: 0 } : undefined}
+              >
+                {item.href && (
+                  <a
+                    className="event-row__link"
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View the full ${item.title} photo album on Google Photos`}
+                  />
+                )}
                 <div className="date">{item.date}</div>
                 <div>
                   <h3>{item.title}</h3>
                   <p>{item.body}</p>
                 </div>
-                <span className="status-pill past">Past</span>
+                <span className="status-pill past">{item.href ? 'View album ↗' : 'Past'}</span>
               </StaggerItem>
             ))}
           </Stagger>

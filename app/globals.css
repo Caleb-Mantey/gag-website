@@ -1,6 +1,6 @@
 /* ============================================================
    Game Developers Association of Ghana — design system
-   Palette derived from the GAG logo (Ghana red / gold / green + ink)
+   Palette derived from the GDAG logo (Ghana red / gold / green + ink)
    Bold + editorial. Light & dark themes.
 
    Type is loaded through next/font in app/layout.tsx:
@@ -632,11 +632,15 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
 .band--ink .gl-x::before, .band--ink .gl-x::after{ background:currentColor; }
 
 /* ---------- events ---------- */
-.event-row{ display:grid; gap:20px; align-items:start; padding:26px 0; border-top:1px solid var(--border); }
+.event-row{ position:relative; display:grid; gap:20px; align-items:start; padding:26px 0; border-top:1px solid var(--border); }
 @media (min-width:720px){ .event-row{ grid-template-columns:130px 1fr auto; gap:34px; align-items:center; } }
 .event-row .date{ font-family:var(--font-mono); font-size:13px; letter-spacing:.04em; color:var(--accent); }
 .event-row h3{ font-size:21px; }
 .event-row p{ color:var(--muted); font-size:15px; margin-top:6px; max-width:56ch; }
+.event-row--linked{ transition:background-color .25s var(--ease); }
+.event-row--linked:hover{ background:color-mix(in oklab,var(--accent) 5%,transparent); }
+.event-row__link{ position:absolute; inset:0; z-index:1; border-radius:12px; }
+.event-row__link:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
 
 /* status: a coloured dot and a label — no plate, no border */
 .status-pill{
@@ -733,7 +737,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.05;
 
 /* ---------- people ---------- */
 .people-grid{ display:grid; gap:18px; grid-template-columns:repeat(2,1fr); }
-@media (min-width:860px){ .people-grid{ grid-template-columns:repeat(4,1fr); } }
+@media (min-width:860px){ .people-grid{ grid-template-columns:repeat(3,1fr); } }
 
 .person{ display:flex; flex-direction:column; gap:16px; }
 .person__frame{

@@ -15,7 +15,7 @@ import { leadership } from '@/lib/people';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    "The Game Developers Association of Ghana (GAG) unites the country's game makers, champions the industry, and works with Warped Atlas to put Ghana on the map of African game development.",
+    "The Game Developers Association of Ghana (GDAG) unites the country's game makers, champions the industry, and works with Warped Atlas to put Ghana on the map of African game development.",
 };
 
 const pillars = [
@@ -80,7 +80,7 @@ const investorPoints = [
       </>
     ),
     title: 'A single point of contact',
-    body: 'GAG connects you to the right studios directly, no cold outreach, no guesswork.',
+    body: 'GDAG connects you to the right studios directly, no cold outreach, no guesswork.',
   },
 ];
 
@@ -122,7 +122,7 @@ export default function AboutPage() {
             </Reveal>
             <Reveal className="prose" delay={0.12}>
               <p>
-                GAG came together in <strong>August 2022</strong>, when Ghana&apos;s game makers gathered to build
+                GDAG came together in <strong>August 2022</strong>, when Ghana&apos;s game makers gathered to build
                 something the scene had never had: a shared home. The inaugural meeting was chaired by{' '}
                 <strong>Eyram Tawia</strong>, CEO of Leti Arts and one of the pioneers of African game development.
               </p>
@@ -133,7 +133,7 @@ export default function AboutPage() {
               </p>
               <p>
                 Since then, Ghanaian studios have won presidential pitches, earned global grants, and shipped games
-                that travel far beyond our borders. GAG exists to turn those individual wins into a durable, investable
+                that travel far beyond our borders. GDAG exists to turn those individual wins into a durable, investable
                 industry.
               </p>
             </Reveal>
@@ -142,7 +142,7 @@ export default function AboutPage() {
             <blockquote className="pull">
               We&apos;re not waiting to be discovered. We&apos;re building the industry and inviting the world to build
               it with us.
-              <cite>The GAG founding vision</cite>
+              <cite>The GDAG founding vision</cite>
             </blockquote>
             <div className="stat-band" style={{ marginTop: 34, gridTemplateColumns: 'repeat(2,1fr)' }}>
               <div className="stat">
@@ -205,7 +205,7 @@ export default function AboutPage() {
                 />
                 <p className="eyebrow eyebrow--gold">The collaboration</p>
                 <h2 className="h2 balance" style={{ margin: '16px 0 18px' }}>
-                  GAG × Warped Atlas.
+                  GDAG × Warped Atlas.
                 </h2>
                 <p className="lead" style={{ marginBottom: 16 }}>
                   Warped Atlas is the public record of Africa&apos;s game-development and interactive-media ecosystem,
@@ -218,7 +218,7 @@ export default function AboutPage() {
                   every flagship studio in this association.
                 </p>
                 <p style={{ opacity: 0.85 }}>
-                  GAG partners with Warped Atlas to keep Ghana&apos;s entry accurate and complete so when investors,
+                  GDAG partners with Warped Atlas to keep Ghana&apos;s entry accurate and complete so when investors,
                   publishers and press look for African talent, Ghana is impossible to miss. Their work of mapping the
                   continent, and ours of building the industry, point in the same direction.
                 </p>
@@ -316,14 +316,6 @@ export default function AboutPage() {
             </div>
           </div>
           <PeopleGrid people={leadership} />
-          <Reveal
-            as="p"
-            className="text-muted"
-            style={{ fontSize: 13, marginTop: 26, fontFamily: 'var(--font-mono)', letterSpacing: '.02em' }}
-          >
-            Portraits drop into /public/people — until then each seat shows its monogram. Leadership details beyond the
-            chair are pending the association&apos;s confirmed roster.
-          </Reveal>
         </div>
       </section>
 
@@ -401,7 +393,7 @@ export default function AboutPage() {
                   Join, partner, or just say hello.
                 </h2>
                 <p className="lead">
-                  Whether you&apos;re a studio, a developer, an investor or a partner — there&apos;s a way in. Tell us
+                  Whether you&apos;re a studio, a developer, an investor or a partner, there&apos;s a way in. Tell us
                   who you are and we&apos;ll take it from there.
                 </p>
               </div>

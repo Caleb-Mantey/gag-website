@@ -25,7 +25,7 @@ const atlasStats = [
 const eventTeasers = [
   {
     date: 'Q4 2026',
-    title: 'GAG Showcase & Investor Night',
+    title: 'GDAG Showcase & Investor Night',
     body: "Ghana's studios present their latest titles to partners, publishers and investors.",
     em: 'Details coming soon.',
     status: 'up' as const,
@@ -40,7 +40,7 @@ const eventTeasers = [
   },
   {
     date: 'Aug 2022',
-    title: 'GAG Inaugural Gathering',
+    title: 'GDAG Inaugural Gathering',
     body: 'The founding of the association, convened by the community and chaired by Eyram Tawia of Leti Arts.',
     status: 'past' as const,
     statusLabel: 'Past',
@@ -122,7 +122,7 @@ export default function HomePage() {
             </Reveal>
             <Reveal className="prose" delay={0.12}>
               <p>
-                GAG is the industry body for Ghana&apos;s game makers, programmers, artists, designers, audio pros,
+                GDAG is the industry body for Ghana&apos;s game makers, programmers, artists, designers, audio pros,
                 streamers and studio founders. We exist to help the ecosystem network, grow professionally, and speak
                 with one voice to partners, platforms and policymakers.
               </p>
@@ -142,7 +142,7 @@ export default function HomePage() {
           <Reveal delay={0.12}>
             <blockquote className="pull">
               Africa doesn&apos;t need permission to make world-class games. We just need to build, together.
-              <cite>The GAG charter · Accra, 2022</cite>
+              <cite>The GDAG charter · Accra, 2022</cite>
             </blockquote>
             <Glyphs style={{ marginTop: 34 }} />
           </Reveal>
@@ -327,7 +327,7 @@ export default function HomePage() {
                 </h2>
                 <p className="lead">
                   Warped Atlas is the public record of Africa&apos;s game-development and interactive-media ecosystem:{' '}
-                  <strong>57+ studios across 12+ countries</strong>, documented and searchable. GAG works with Warped
+                  <strong>57+ studios across 12+ countries</strong>, documented and searchable. GDAG works with Warped
                   Atlas to keep Ghana&apos;s chapter accurate, complete and visible to the world.
                 </p>
                 <div style={{ marginTop: 26, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
@@ -432,7 +432,7 @@ export default function HomePage() {
             </StaggerItem>
             <StaggerItem className="hero-cta" style={{ justifyContent: 'center', marginTop: 30 }}>
               <Link href="/about#partner" className="btn btn--primary">
-                Partner with GAG
+                Partner with GDAG
                 <ArrowIcon />
               </Link>
               <Link href="/studios" className="btn btn--ghost">

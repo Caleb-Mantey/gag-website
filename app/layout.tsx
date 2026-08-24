@@ -40,13 +40,13 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://gag.gh'),
+  metadataBase: new URL('https://gdag.gh'),
   title: {
     default: "Game Developers Association of Ghana, Building Africa's next games powerhouse",
     template: '%s - Game Developers Association of Ghana',
   },
   description:
-    'The Game Developers Association of Ghana (GAG) unites the studios, creators and games putting Ghana on the map as a powerhouse of African game development.',
+    'The Game Developers Association of Ghana (GDAG) unites the studios, creators and games putting Ghana on the map as a powerhouse of African game development.',
   openGraph: {
     type: 'website',
     locale: 'en_GH',

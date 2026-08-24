@@ -11,7 +11,7 @@ export default function Footer() {
             <Link className="brand" href="/" style={{ marginBottom: 18 }}>
               <GagMark size={36} />
               <span className="wordmark">
-                GAG<small>Game Developers · Ghana</small>
+                GDAG<small>Game Developers · Ghana</small>
               </span>
             </Link>
             <p className="text-muted measure" style={{ fontSize: 15 }}>
@@ -25,7 +25,7 @@ export default function Footer() {
             <Link href="/studios">Studios</Link>
             <Link href="/games">Games</Link>
             <Link href="/events">Events</Link>
-            <Link href="/about">About GAG</Link>
+            <Link href="/about">About GDAG</Link>
           </div>
 
           <div className="footer-col">

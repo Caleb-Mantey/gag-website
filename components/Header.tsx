@@ -69,12 +69,12 @@ export default function Header() {
       transition={{ duration: 0.6, ease: EASE }}
     >
       <div className="container nav">
-        <Link className="brand" href="/" aria-label="GAG home">
+        <Link className="brand" href="/" aria-label="GDAG home">
           <motion.span whileHover={{ rotate: 8, scale: 1.06 }} transition={{ duration: 0.4, ease: EASE }}>
             <GagMark />
           </motion.span>
           <span className="wordmark">
-            GAG<small>Game Developers · Ghana</small>
+            GDAG<small>Game Developers · Ghana</small>
           </span>
         </Link>
 
@@ -110,7 +110,7 @@ export default function Header() {
         <div className="nav-actions">
           <ThemeToggle />
           <Link href="/about#join" className="btn btn--primary btn--sm nav-cta-desktop">
-            Join GAG
+            Join GDAG
           </Link>
           <motion.button
             className="nav-burger"

@@ -4,7 +4,7 @@ import gasbrosLight from '@/assets/partners/gasbros-gaming-network-light.png';
 import type { StudioLogo } from '@/lib/studios';
 
 /**
- * Ecosystem partners — organisations GAG works alongside that aren't studios,
+ * Ecosystem partners — organisations GDAG works alongside that aren't studios,
  * so they sit outside the studio count and the studio directory.
  */
 export type Partner = {
@@ -30,7 +30,7 @@ export const partners: Partner[] = [
     initials: 'GB',
     url: 'https://gasbrosgamingnetwork.com/',
     role: 'Ghana · Gaming news & media',
-    bio: "Ghana's gaming news network. GAG works hand in hand with Gasbros to bring news, coverage and insight from the industry to the wider community.",
+    bio: "Ghana's gaming news network. GDAG works hand in hand with Gasbros to bring news, coverage and insight from the industry to the wider community.",
     logo: { light: gasbrosLight, dark: gasbrosDark },
     chip: { background: 'var(--green)' },
   },
