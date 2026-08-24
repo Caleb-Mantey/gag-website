@@ -81,6 +81,56 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* GAMESCOM 2026 LIVE FEATURE */}
+      <section className="container gamescom-feature-wrap">
+        <Reveal className="gamescom-feature">
+          <div className="gamescom-feature__copy">
+            <div className="gamescom-feature__status">
+              <span aria-hidden="true" />
+              Live in Cologne · 24–30 August
+            </div>
+            <p className="eyebrow eyebrow--gold">Gamescom 2026</p>
+            <h2 className="h2 balance">We&apos;re at the world&apos;s biggest games event.</h2>
+            <p className="lead">
+              GDAG is bringing Ghana&apos;s game development community to the global stage. Visit our booth to meet the
+              people building games in Ghana, discover what we&apos;re making and see more from the community.
+            </p>
+            <Link href="/events" className="btn btn--primary">
+              See GDAG at Gamescom
+              <ArrowIcon />
+            </Link>
+          </div>
+
+          <div className="gamescom-feature__photos" aria-label="Scenes from GDAG at Gamescom 2025">
+            <div className="gamescom-feature__photo gamescom-feature__photo--main">
+              <Image
+                src="/gallery/gamescom-2025-delegation.jpg"
+                alt="GDAG representatives meeting attendees at Gamescom 2025"
+                fill
+                sizes="(min-width: 900px) 34vw, 80vw"
+              />
+            </div>
+            <div className="gamescom-feature__photo">
+              <Image
+                src="/gallery/gamescom-2025-booth-demo.jpg"
+                alt="Games being demonstrated at a Gamescom booth in 2025"
+                fill
+                sizes="(min-width: 900px) 16vw, 40vw"
+              />
+            </div>
+            <div className="gamescom-feature__photo">
+              <Image
+                src="/gallery/gamescom-2025-team-at-booth.jpg"
+                alt="The team together at Gamescom 2025"
+                fill
+                sizes="(min-width: 900px) 16vw, 40vw"
+              />
+            </div>
+            <span className="gamescom-feature__caption">Scenes from Gamescom 2025</span>
+          </div>
+        </Reveal>
+      </section>
+
       {/* STAT BAND */}
       <section className="container" style={{ marginBottom: 'clamp(40px,6vw,80px)' }}>
         <Stagger className="stat-band" stagger={0.07}>
