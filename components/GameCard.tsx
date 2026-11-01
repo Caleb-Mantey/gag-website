@@ -44,7 +44,7 @@ type Props = {
  * Hovering swaps in the second layer — gameplay footage if the title has any,
  * otherwise a second still — and opens up the blurb underneath the title.
  */
-export default function GameCard({ game, hidden, sizes = '(min-width:940px) 33vw, (min-width:600px) 50vw, 100vw', priority }: Props) {
+export default function GameCard({ game, hidden, sizes = '(min-width:1180px) 365px, (min-width:940px) 33vw, (min-width:600px) 50vw, 100vw', priority }: Props) {
   const [hovered, setHovered] = useState(false);
   const reduceMotion = useReducedMotion();
   const canHover = useCanHover();

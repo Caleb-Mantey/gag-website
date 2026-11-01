@@ -2,25 +2,18 @@ import type { StaticImageData } from 'next/image';
 
 import bawalaDark from '@/assets/studios/bawala-studios-dark.jpg';
 import bawalaLight from '@/assets/studios/bawala-studios-light.jpeg';
-import cityquestDark from '@/assets/studios/cityquest-africa-dark.png';
-import cityquestLight from '@/assets/studios/cityquest-africa-light.png';
 import dobiisonDark from '@/assets/studios/dobiison-dark.jpg';
 import dobiisonLight from '@/assets/studios/dobiison-light.png';
 import dumsorDark from '@/assets/studios/dumsor-games-dark.png';
 import dumsorLight from '@/assets/studios/dumsor-games-light.png';
-import dusuDark from '@/assets/studios/dusu-studios-dark.png';
-import dusuLight from '@/assets/studios/dusu-studios-light.png';
 import kofiroDark from '@/assets/studios/kofiro-dark.webp';
 import kofiroLight from '@/assets/studios/kofiro-light.webp';
 import letiDark from '@/assets/studios/leti-arts-dark.jpg';
 import letiLight from '@/assets/studios/leti-arts-light.jpg';
-import millsDark from '@/assets/studios/mills-media-dark.png';
-import millsLight from '@/assets/studios/mills-media-light.png';
 import ogamesDark from '@/assets/studios/ogames-studio-dark.png';
 import ogamesLight from '@/assets/studios/ogames-studio-light.png';
 import khaosDark from '@/assets/studios/organized-khaos-dark.jpg';
 import khaosLight from '@/assets/studios/organized-khaos-light.png';
-import playWarpedMark from '@/assets/studios/play-warped.png';
 import reluDark from '@/assets/studios/relu-interactives-dark.png';
 import reluLight from '@/assets/studios/relu-interactives-light.png';
 
@@ -69,7 +62,7 @@ export const foundingStudios: FoundingStudio[] = [
     name: 'Leti Arts',
     wallName: 'Leti Arts',
     initials: 'LA',
-    url: 'https://www.letiarts.com/',
+    url: 'https://www.letigames.com/',
     logo: { light: letiLight, dark: letiDark },
     placeholder: 'circle',
     badge: 'Since 2009',
@@ -78,7 +71,7 @@ export const foundingStudios: FoundingStudio[] = [
     chips: ['Mobile games', 'Digital comics', 'African folklore'],
     meta: [
       { k: 'Notable', v: "Africa's Legends · Karmzah" },
-      { k: 'Platform', v: 'Afrocomix app' },
+      { k: 'Founder', v: 'Eyram Tawia' },
       { k: 'Founded', v: '2009' },
     ],
   },
@@ -92,11 +85,11 @@ export const foundingStudios: FoundingStudio[] = [
     placeholder: 'square',
     badge: 'Presidential Pitch ’23',
     role: 'Accra, Ghana · Immersive & spatial technology',
-    bio: 'Relu Interactives builds interactive 3D software, VR/AR training simulations and the Relu Spatial WebXR platform for enterprise and entertainment. The studio applies extended reality and digital twins to real problems from closing education gaps for engineering students to multi-user spatial experiences and won the 2023 Presidential Pitch for its XR innovation.',
+    bio: 'Relu Interactives builds interactive 3D software, VR/AR training simulations and the Relu Spatial WebXR platform for enterprise and entertainment. The studio applies extended reality and digital twins to real problems from closing education gaps for engineering students to multi-user spatial experiences and won the 2023 Presidential Pitch for its XR innovation. Its browser fighting game Akofena won the maiden MTN DigiFest Game Developer Contest in 2026.',
     chips: ['VR / AR', 'WebXR', 'Digital twins'],
     meta: [
-      { k: 'Platform', v: 'Relu Spatial' },
-      { k: 'Focus', v: 'XR & simulation' },
+      { k: 'Notable', v: 'Akofena · Sort Jam' },
+      { k: 'Founder', v: 'Caleb Mantey' },
       { k: 'Founded', v: '2022' },
     ],
   },
@@ -110,30 +103,11 @@ export const foundingStudios: FoundingStudio[] = [
     placeholder: 'x',
     badge: 'Unity for Humanity ’26',
     role: 'Tema, Greater Accra · Narrative & serious games',
-    bio: 'An award-winning independent studio pushing the boundaries of narrative and social-impact games across mobile, desktop, VR and console. Founded by Mark Cofie Jr, Organized Khaos won the 2026 Unity for Humanity grant for its StoriWeave platform, and took the 2023 AfricaComicade ARK pitch with Code Quest, a game that teaches programming basics.',
+    bio: 'Andy Korshie founded Organized Khaos, an independent studio making narrative and social-impact games for mobile, desktop, VR and console. StoriWeave earned an Honorable Mention in the 2026 Unity for Humanity grants, and lead developer Ebenezer Apau won the 2023 AfricaComicade ARK pitch with Code Quest, a game that teaches programming basics.',
     chips: ['Narrative', 'Serious games', 'VR'],
     meta: [
       { k: 'Notable', v: 'StoriWeave · Code Quest' },
-      { k: 'Founder', v: 'Mark Cofie Jr' },
-      { k: 'Founded', v: '—' },
-    ],
-  },
-  {
-    slug: 'play-warped',
-    name: 'Play.warped',
-    wallName: 'Play.warped',
-    initials: 'PW',
-    // one white-on-transparent mark, inverted in the light theme
-    logo: { light: playWarpedMark, dark: playWarpedMark },
-    invertLight: true,
-    placeholder: 'triangle',
-    badge: 'Founding member',
-    role: 'Ghana · Play & discovery initiative',
-    bio: "A play and discovery initiative connecting Ghana's games to players and to the wider Warped Atlas ecosystem. Its work sits between the studios and the audience, surfacing what's being made here and giving new titles a route to the people who want to play them.",
-    chips: ['Community', 'Discovery', 'Ecosystem'],
-    meta: [
-      { k: 'Focus', v: 'Play & discovery' },
-      { k: 'Ecosystem', v: 'Warped Atlas' },
+      { k: 'Founder', v: 'Andy Korshie' },
       { k: 'Founded', v: '—' },
     ],
   },
@@ -152,28 +126,6 @@ export const memberStudios: MemberStudio[] = [
     chip: { background: 'var(--gold)', color: 'var(--ink)' },
   },
   {
-    slug: 'mills-media',
-    name: 'Mills Media',
-    wallName: 'Mills Media',
-    initials: 'MM',
-    url: 'https://millsmedia.co/',
-    logo: { light: millsLight, dark: millsDark },
-    role: 'Accra · Animation & games',
-    bio: 'Animation and game-development studio producing original interactive and animated work out of Accra.',
-    chip: { background: 'var(--accent)' },
-  },
-  {
-    slug: 'cityquest-africa',
-    name: 'CityQuest Africa',
-    wallName: 'CityQuest Africa',
-    initials: 'CQ',
-    url: 'https://www.cityquest.africa/',
-    logo: { light: cityquestLight, dark: cityquestDark },
-    role: 'Accra · Location-based media',
-    bio: 'Building location-based, interactive media experiences that turn real places into playable spaces.',
-    chip: { background: 'var(--green)' },
-  },
-  {
     slug: 'dobiison',
     name: 'DOBIISON',
     wallName: 'DOBIISON',
@@ -183,16 +135,6 @@ export const memberStudios: MemberStudio[] = [
     role: 'Accra · Immersive media',
     bio: 'An immersive-media studio exploring interactive and experiential formats for African audiences.',
     chip: { background: 'var(--ink)' },
-  },
-  {
-    slug: 'play233',
-    name: 'Play233',
-    wallName: 'Play233',
-    initials: 'P2',
-    url: 'https://iplay233.com/',
-    role: 'Accra · Games & services',
-    bio: 'Interactive-media and game-services studio supporting the Ghanaian ecosystem end to end.',
-    chip: { background: 'var(--gold)', color: 'var(--ink)' },
   },
   {
     slug: 'bawala-studios',
@@ -215,18 +157,6 @@ export const memberStudios: MemberStudio[] = [
     role: 'Ghana · Browser games',
     bio: 'A few game devs from Ghana who love to make games as much as they love to play them, shipping browser titles like Shooting Cell and Ninja Run.',
     chip: { background: 'var(--accent)' },
-  },
-  {
-    slug: 'dusu-studios',
-    name: 'Dusu Studios',
-    wallName: 'Dusu Studios',
-    initials: 'DS',
-    url: 'https://www.dusustudios.com/',
-    logo: { light: dusuLight, dark: dusuDark },
-    invertLight: true,
-    role: 'Ghana · Game development',
-    bio: 'A game studio part of the documented Ghana network profile expanding as we grow.',
-    chip: { background: 'var(--gold)', color: 'var(--ink)' },
   },
 ];
 

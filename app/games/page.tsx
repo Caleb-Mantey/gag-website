@@ -9,7 +9,7 @@ import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 export const metadata: Metadata = {
   title: 'Games',
   description:
-    "Games and interactive titles made in Ghana, from Leti Arts' Africa's Legends to Organized Khaos' StoriWeave, OGames' Tales from the Baobab and Relu's spatial XR.",
+    "Play games made in Ghana by GDAG's studios, including Akofena, Africa's Legends, Karmzah and Echo.",
 };
 
 export default function GamesPage() {
@@ -24,11 +24,11 @@ export default function GamesPage() {
             Made in Ghana
           </StaggerItem>
           <StaggerItem>
-            <h1 className="balance">Games that carry a continent&apos;s stories.</h1>
+            <h1 className="balance">Play what Ghana is making.</h1>
           </StaggerItem>
           <StaggerItem as="p" className="lead pretty">
-            Superheroes drawn from African mythology, adventures, spatial XR and open worlds rooted in Ghanaian
-            folklore. This is the creativity coming out of the association&apos;s studios.
+            Fight as African legends in your browser or learn science through hands-on simulations. GDAG&apos;s studios
+            made all of these games.
           </StaggerItem>
         </Stagger>
       </section>
@@ -39,35 +39,35 @@ export default function GamesPage() {
         </div>
       </section>
 
-      {/* EDITORIAL: creativity in the industry */}
+      {/* EDITORIAL: what the studios build */}
       <section className="section section--alt">
         <div className="container grid cols-2" style={{ alignItems: 'center', gap: 56 }}>
           <Reveal>
-            <p className="eyebrow eyebrow--gold">The creative current</p>
+            <p className="eyebrow eyebrow--gold">Three directions</p>
             <h2 className="h2 balance" style={{ margin: '16px 0 20px' }}>
-              Three ideas the industry keeps returning to.
+              Ghanaian studios build three kinds of game.
             </h2>
             <div className="prose">
               <p>
-                <strong>African stories, told first-hand.</strong> From Leti Arts&apos; legends to OGames&apos; baobab
-                tales, Ghanaian studios aren&apos;t localising other people&apos;s games, they&apos;re mining their own
-                mythology, history and folklore for worlds no one else can build.
+                <strong>African stories.</strong> Leti Arts draws the heroes of Africa&apos;s Legends from the
+                continent&apos;s mythology. In Relu Interactives&apos; Akofena, you fight as Yaa Asantewaa or Ananse.
               </p>
               <p>
-                <strong>Games with a job to do.</strong> Serious and educational games like Code Quest, StoriWeave,
-                SimuLab turn play into learning, and have drawn global grant funding to Accra.
+                <strong>Games that teach.</strong> OGames Studio built SimuLab so you can learn STEM through science
+                simulations. Organized Khaos made Code Quest to teach programming basics, and StoriWeave lets young
+                readers shape interactive stories.
               </p>
               <p>
-                <strong>Into the third dimension.</strong> XR is a genuine frontier here: Relu Interactives is building
-                spatial-computing infrastructure for the whole continent, not just single titles.
+                <strong>VR and XR.</strong> Relu Interactives ships VR games like Sort Jam and builds Relu Spatial, a
+                tool for publishing XR experiences to the browser. Kofiro made Space VR Racer, and Organized Khaos made
+                Ring Frenzy.
               </p>
             </div>
           </Reveal>
           <Reveal delay={0.08}>
             <blockquote className="pull">
-              When a Ghanaian child plays a hero who looks like them, in a world built from their own stories,
-              that&apos;s the whole point.
-              <cite>The case for made-in-Ghana games</cite>
+              We use [games] to bring Ghanaian perspectives to the global gaming stage.
+              <cite>Andy Korshie · Founder, Organized Khaos</cite>
             </blockquote>
           </Reveal>
         </div>
@@ -79,10 +79,10 @@ export default function GamesPage() {
             <Glyphs style={{ justifyContent: 'center', marginBottom: 24 }} />
           </StaggerItem>
           <StaggerItem as="h2" className="h2 balance" style={{ marginBottom: 16 }}>
-            Want to publish, fund or port a Ghanaian title?
+            Publish, fund or port a Ghanaian game.
           </StaggerItem>
           <StaggerItem as="p" className="lead" style={{ marginInline: 'auto', textAlign: 'center' }}>
-            GDAG can connect you directly to the studios behind these games.
+            GDAG can put you in touch with the studios behind these titles.
           </StaggerItem>
           <StaggerItem className="hero-cta" style={{ justifyContent: 'center', marginTop: 26 }}>
             <Link href="/about#partner" className="btn btn--primary">

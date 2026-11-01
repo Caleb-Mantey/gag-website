@@ -3,13 +3,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import warpedAtlasLogo from '@/assets/warped-atlas-white.png';
+import Gallery from '@/components/Gallery';
 import HeroVisual from '@/components/HeroVisual';
 import JoinForm from '@/components/JoinForm';
 import PeopleGrid from '@/components/PeopleGrid';
-import { FlagRule, Glyph, Glyphs } from '@/components/icons';
+import { ArrowIcon, FlagRule, Glyph, Glyphs } from '@/components/icons';
 import CountUp from '@/components/motion/CountUp';
 import Reveal from '@/components/motion/Reveal';
 import { Stagger, StaggerItem } from '@/components/motion/Stagger';
+import { communityTiles } from '@/lib/gallery';
+import { atlasCounts } from '@/lib/partners';
 import { leadership } from '@/lib/people';
 
 export const metadata: Metadata = {
@@ -46,7 +49,7 @@ const investorPoints = [
     color: 'var(--accent)',
     icon: <path d="M13 2L3 14h7l-1 8 10-12h-7z" />,
     title: 'Proven, award-winning talent',
-    body: 'Presidential Pitch winners, Unity for Humanity grantees and globally-published studios.',
+    body: 'Presidential Pitch winners, a Unity for Humanity Honorable Mention and globally published studios.',
   },
   {
     color: 'var(--gold)',
@@ -162,8 +165,34 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* WHAT WE DO */}
+      {/* THE COMMUNITY */}
       <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <Reveal as="p" className="eyebrow">
+                The community
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                The people behind the games.
+              </Reveal>
+            </div>
+            <Reveal delay={0.06}>
+              <Link href="/events" className="link-arrow">
+                All events
+                <ArrowIcon />
+              </Link>
+            </Reveal>
+          </div>
+          <Gallery tiles={communityTiles} />
+          <Reveal as="p" className="logo-note">
+            Novembre Numérique, Global Game Jam and Pi Day photos: Leti Arts.
+          </Reveal>
+        </div>
+      </section>
+
+      {/* WHAT WE DO */}
+      <section className="section section--alt">
         <div className="container">
           <div className="section-head">
             <div>
@@ -192,7 +221,7 @@ export default function AboutPage() {
       </section>
 
       {/* WARPED ATLAS COLLAB */}
-      <section className="section section--alt" id="warped" style={{ scrollMarginTop: 90 }}>
+      <section className="section" id="warped" style={{ scrollMarginTop: 90 }}>
         <div className="container">
           <Reveal className="band band--ink">
             <div className="grid cols-2" style={{ alignItems: 'center', gap: 44 }}>
@@ -208,14 +237,18 @@ export default function AboutPage() {
                   GDAG × Warped Atlas.
                 </h2>
                 <p className="lead" style={{ marginBottom: 16 }}>
-                  Warped Atlas is the public record of Africa&apos;s game-development and interactive-media ecosystem,
-                  a searchable, source-based atlas of the studios, creators, projects, tools and events shaping digital
-                  creation across the continent.
+                  Warped Atlas is the company mapping Africa&apos;s game-development and interactive-media ecosystem. A
+                  Warped hq initiative, it is a searchable, source-based record of the studios, creators, projects and
+                  events shaping digital creation across the continent.
                 </p>
                 <p style={{ opacity: 0.85, marginBottom: 16 }}>
-                  At the time of writing it documents <strong>57+ studios across 12+ countries</strong> and{' '}
-                  <strong>94+ projects</strong>. Its Ghana chapter alone holds <strong>44 records</strong>, including
-                  every flagship studio in this association.
+                  At the time of writing it documents{' '}
+                  <strong>
+                    {atlasCounts.studios}+ studios across {atlasCounts.countries}+ countries
+                  </strong>{' '}
+                  and <strong>{atlasCounts.projects}+ projects</strong>. Its Ghana chapter alone holds{' '}
+                  <strong>{atlasCounts.ghanaRecords} records</strong>, including every flagship studio in this
+                  association.
                 </p>
                 <p style={{ opacity: 0.85 }}>
                   GDAG partners with Warped Atlas to keep Ghana&apos;s entry accurate and complete so when investors,
@@ -270,7 +303,7 @@ export default function AboutPage() {
                   >
                     <div className="stat">
                       <div className="n" style={{ color: 'var(--gold)' }}>
-                        <CountUp to={44} />
+                        <CountUp to={atlasCounts.ghanaRecords} />
                       </div>
                       <div className="l" style={{ color: 'color-mix(in oklab,currentColor 66%,transparent)' }}>
                         Ghana records
@@ -287,7 +320,7 @@ export default function AboutPage() {
                   >
                     <div className="stat">
                       <div className="n" style={{ color: 'var(--green)' }}>
-                        <CountUp to={12} />
+                        <CountUp to={atlasCounts.countries} />
                         <b>+</b>
                       </div>
                       <div className="l" style={{ color: 'color-mix(in oklab,currentColor 66%,transparent)' }}>
@@ -303,7 +336,7 @@ export default function AboutPage() {
       </section>
 
       {/* LEADERSHIP */}
-      <section className="section">
+      <section className="section section--alt">
         <div className="container">
           <div className="section-head">
             <div>
@@ -320,7 +353,7 @@ export default function AboutPage() {
       </section>
 
       {/* PARTNER / INVEST */}
-      <section className="section section--alt" id="partner" style={{ scrollMarginTop: 90 }}>
+      <section className="section" id="partner" style={{ scrollMarginTop: 90 }}>
         <div className="container">
           <div className="grid cols-2" style={{ gap: 56, alignItems: 'start' }}>
             <div>
@@ -382,7 +415,7 @@ export default function AboutPage() {
       </section>
 
       {/* JOIN */}
-      <section className="section" id="join" style={{ scrollMarginTop: 90 }}>
+      <section className="section section--alt" id="join" style={{ scrollMarginTop: 90 }}>
         <div className="container">
           <Reveal className="band band--ink">
             <div className="grid cols-2" style={{ gap: 44, alignItems: 'center' }}>

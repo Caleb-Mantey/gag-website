@@ -1,64 +1,49 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 
 import Gallery from '@/components/Gallery';
 import NotifyForm from '@/components/NotifyForm';
 import { FlagRule, Glyphs } from '@/components/icons';
 import Reveal from '@/components/motion/Reveal';
 import { Stagger, StaggerItem } from '@/components/motion/Stagger';
+import { pastEvents, upcomingEvents, type PastEvent } from '@/lib/events';
+import { mtnConferenceTiles, mtnContestTiles } from '@/lib/gallery';
 
 export const metadata: Metadata = {
   title: 'Events',
   description:
-    "Game jams, showcases, meetups and investor nights from the Game Developers Association of Ghana, past highlights, a community gallery, and what's coming next.",
+    "Game jams, conferences, showcases and meetups from Ghana's games community: what's coming next, the MTN Gaming Conference and Game Developer Contest, and every past event on the record.",
 };
 
-const upcoming = [
-  {
-    pill: 'Upcoming · Q4 2026',
-    status: 'up' as const,
-    title: 'GDAG Showcase & Investor Night',
-    body: "Ghana's studios present their latest titles to publishers, partners and investors, the flagship moment to see the industry's momentum first-hand.",
-    when: 'Accra · Date & venue TBA',
-  },
-  {
-    pill: 'Planned · 2027',
-    status: 'up' as const,
-    title: 'Global Game Jam · Ghana',
-    body: "GDAG hosts Ghana's site for the world's largest game-creation event, 48 hours, one theme, dozens of new playable games.",
-    when: 'Accra · January 2027',
-  },
-  {
-    pill: 'Ongoing',
-    status: 'live' as const,
-    title: "Members' Meetups",
-    body: 'Regular community gatherings for developers, artists and streamers to share work, find collaborators and learn.',
-    when: 'Accra · Monthly',
-  },
-];
+const justWrapped = pastEvents.slice(0, 2);
+const earlierEvents = pastEvents.slice(2);
+const years = [...new Set(earlierEvents.map((event) => event.date.slice(0, 4)))];
 
-const milestones: Array<{ date: string; title: string; body: string; href?: string }> = [
-  {
-    date: 'Aug 2025',
-    title: 'Gamescom · Cologne',
-    body: "The Game Developers Association of Ghana joined the global games industry at Gamescom 2025, representing Ghana's growing development community, showcasing African-made games and building connections with creators and partners from around the world.",
-    href: 'https://photos.google.com/share/AF1QipOp0nJlXEmQIt4jJo44uUGQvQ5s8mG7AoV4zEQVeDJ8jwSS9U04gnqvgheEa-96SQ?key=dGxRZDVTcTBoNEJpWGJVX1RCOVZSRjFGTl90ekdB',
-  },
-  {
-    date: '2024',
-    title: 'Global Game Jam · Accra',
-    body: 'Ghanaian developers took part in the global 48-hour jam, building playable games around a shared theme alongside thousands of teams worldwide.',
-  },
-  {
-    date: '2023',
-    title: 'Global Game Jam · East Legon site',
-    body: 'Ghana hosted a Global Game Jam site in East Legon, Accra, a milestone in bringing the international event home to local developers.',
-  },
-  {
-    date: 'Aug 2022',
-    title: 'GDAG Inaugural Gathering',
-    body: 'The founding of the Game Developers Association of Ghana, convened by the community and chaired by Eyram Tawia, CEO of Leti Arts, with support from Ambitious Ghana.',
-  },
-];
+function EventMedia({ event, sizes }: { event: PastEvent; sizes: string }) {
+  return (
+    <div className="event-media" style={event.image ? undefined : { background: event.art }}>
+      {event.image ? (
+        <Image src={event.image} alt={event.imageAlt ?? ''} fill sizes={sizes} />
+      ) : (
+        <span className="event-media__date" aria-hidden="true">
+          {event.dateLabel}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function EventLinks({ links }: { links: NonNullable<PastEvent['links']> }) {
+  return (
+    <div className="event-links">
+      {links.map((link) => (
+        <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
+          {link.label} ↗
+        </a>
+      ))}
+    </div>
+  );
+}
 
 export default function EventsPage() {
   return (
@@ -75,8 +60,8 @@ export default function EventsPage() {
             <h1 className="balance">Where Ghana&apos;s game makers meet.</h1>
           </StaggerItem>
           <StaggerItem as="p" className="lead pretty">
-            Game jams, studio showcases, workshops and investor nights. The association&apos;s events are where talent
-            connects, projects get made and partners see the industry up close.
+            Game jams, conferences, studio showcases and investor nights. These are the events where talent connects,
+            projects get made and partners see the industry up close.
           </StaggerItem>
         </Stagger>
       </section>
@@ -88,7 +73,7 @@ export default function EventsPage() {
             Upcoming &amp; planned
           </Reveal>
           <Stagger className="grid cols-3" stagger={0.09}>
-            {upcoming.map((event) => (
+            {upcomingEvents.map((event) => (
               <StaggerItem as="article" className="card event-card" variant="card" key={event.title}>
                 <span className={`status-pill ${event.status}`} style={{ alignSelf: 'flex-start' }}>
                   {event.pill}
@@ -104,8 +89,100 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* GALLERY */}
+      {/* JUST WRAPPED */}
+      <section className="section section--alt">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <Reveal as="p" className="eyebrow eyebrow--gold">
+                Just wrapped
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                A big October for Ghanaian games.
+              </Reveal>
+            </div>
+          </div>
+          <Stagger className="event-feature-grid" stagger={0.1}>
+            {justWrapped.map((event) => (
+              <StaggerItem as="article" className="event-feature" variant="card" key={event.slug}>
+                <EventMedia event={event} sizes="(min-width:1180px) 550px, (min-width:900px) 48vw, 100vw" />
+                <div className="event-feature__body">
+                  <p className="event-meta">
+                    <time dateTime={event.date}>{event.dateLabel}</time> · {event.place}
+                  </p>
+                  <h3 className="h3">{event.title}</h3>
+                  <p className="event-host">Hosted by {event.host}</p>
+                  <p className="text-muted" style={{ fontSize: 15.5 }}>
+                    {event.body}
+                  </p>
+                  {event.results && (
+                    <div className="event-results">
+                      {event.results.map((group) => (
+                        <div key={group.category}>
+                          <h4>{group.category}</h4>
+                          <ol>
+                            {group.places.map((team) => (
+                              <li key={team}>{team}</li>
+                            ))}
+                          </ol>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {event.highlights && (
+                    <ul className="event-highlights">
+                      {event.highlights.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {event.links && <EventLinks links={event.links} />}
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* PAST EVENTS */}
       <section className="section">
+        <div className="container">
+          <Reveal as="p" className="eyebrow" style={{ marginBottom: 8 }}>
+            Past events
+          </Reveal>
+          <Reveal as="h2" className="h2 balance" delay={0.06} style={{ marginBottom: 30 }}>
+            How we got here.
+          </Reveal>
+          {years.map((year) => (
+            <div className="event-year" key={year}>
+              <Reveal as="p" className="event-year__label">
+                {year}
+              </Reveal>
+              <Stagger className="event-year__list" stagger={0.08}>
+                {earlierEvents
+                  .filter((event) => event.date.startsWith(year))
+                  .map((event) => (
+                    <StaggerItem as="article" className="past-event" key={event.slug}>
+                      <EventMedia event={event} sizes="(min-width:640px) 230px, 100vw" />
+                      <div>
+                        <p className="event-meta">
+                          <time dateTime={event.date}>{event.dateLabel}</time> · {event.place}
+                        </p>
+                        <h3>{event.title}</h3>
+                        <p className="event-host">Hosted by {event.host}</p>
+                        <p className="past-event__body">{event.body}</p>
+                        {event.links && <EventLinks links={event.links} />}
+                      </div>
+                    </StaggerItem>
+                  ))}
+              </Stagger>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* GALLERY */}
+      <section className="section section--alt">
         <div className="container">
           <div className="section-head">
             <div>
@@ -116,46 +193,22 @@ export default function EventsPage() {
                 The gallery.
               </Reveal>
             </div>
-            
           </div>
+          <Reveal as="p" className="gallery-title">
+            MTN DigiFest Game Developer Contest · Oct 2026
+          </Reveal>
+          <Gallery tiles={mtnContestTiles} />
+          <Reveal as="p" className="logo-note" style={{ marginTop: 14 }}>
+            Contest photos: Choice News Online.
+          </Reveal>
+          <Reveal as="p" className="gallery-title">
+            MTN Gaming Conference · Oct 2026
+          </Reveal>
+          <Gallery tiles={mtnConferenceTiles} />
+          <Reveal as="p" className="gallery-title">
+            Gamescom · Aug 2025
+          </Reveal>
           <Gallery />
-        </div>
-      </section>
-
-      {/* PAST TIMELINE */}
-      <section className="section section--alt">
-        <div className="container">
-          <Reveal as="p" className="eyebrow eyebrow--gold" style={{ marginBottom: 8 }}>
-            Milestones
-          </Reveal>
-          <Reveal as="h2" className="h2 balance" delay={0.06} style={{ marginBottom: 30 }}>
-            How we got here.
-          </Reveal>
-          <Stagger stagger={0.09}>
-            {milestones.map((item, i) => (
-              <StaggerItem
-                className={`event-row ${item.href ? 'event-row--linked' : ''}`.trim()}
-                key={item.title}
-                style={i === 0 ? { borderTop: 0 } : undefined}
-              >
-                {item.href && (
-                  <a
-                    className="event-row__link"
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`View the full ${item.title} photo album on Google Photos`}
-                  />
-                )}
-                <div className="date">{item.date}</div>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </div>
-                <span className="status-pill past">{item.href ? 'View album ↗' : 'Past'}</span>
-              </StaggerItem>
-            ))}
-          </Stagger>
         </div>
       </section>
 

@@ -22,14 +22,14 @@ app/
   template.tsx        per-route enter transition
   globals.css         the whole design system (tokens, components, both themes)
   page.tsx            home
-  studios/ games/ events/ about/
+  studios/ games/ events/ news/ about/
 components/
   motion/             Reveal, Stagger, CountUp, shared easing + viewport config
   GameCard, GamesGrid, Gallery, PeopleGrid, Header, Footer, ThemeToggle, …
 lib/
-  studios.ts games.ts gallery.ts people.ts     ← all content lives here
+  studios.ts games.ts events.ts news.ts gallery.ts people.ts  ← all content lives here
 assets/               studio logos (imported, optimised at build)
-public/               games/ · gallery/ · people/ — drop-in media
+public/               games/ · gallery/ · news/ · people/ — drop-in media
 docs/                 brand spec, media guide, studio-logo guide
 legacy/               the original static HTML/CSS/JS this was ported from
 ```

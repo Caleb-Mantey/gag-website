@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import AtlasBand from '@/components/AtlasBand';
 import StudioLogo from '@/components/StudioLogo';
 import { ArrowIcon, FlagRule, StarIcon } from '@/components/icons';
 import Reveal from '@/components/motion/Reveal';
 import { Stagger, StaggerItem } from '@/components/motion/Stagger';
-import { partners } from '@/lib/partners';
+import { partners, warpedAtlas } from '@/lib/partners';
 import { foundingStudios, indieStudios, memberStudios, studioCount } from '@/lib/studios';
 
 export const metadata: Metadata = {
   title: 'Studios',
   description:
-    'The studios of the Game Developers Association of Ghana, from founding names like Leti Arts, Relu Interactives, Organized Khaos and Play.warped to the wider network documented on Warped Atlas.',
+    'The studios of the Game Developers Association of Ghana, from founding names like Leti Arts, Relu Interactives and Organized Khaos to the wider network documented on Warped Atlas.',
 };
 
 export default function StudiosPage() {
@@ -195,7 +196,8 @@ export default function StudiosPage() {
       {/* ECOSYSTEM PARTNERS */}
       <section className="section--tight">
         <div className="container">
-          <div className="section-head" style={{ marginBottom: 26 }}>
+          <AtlasBand />
+          <div className="section-head" style={{ marginTop: 'clamp(48px,6vw,72px)', marginBottom: 26 }}>
             <div>
               <Reveal as="p" className="eyebrow eyebrow--gold">
                 Ecosystem partners
@@ -206,7 +208,7 @@ export default function StudiosPage() {
             </div>
           </div>
           <Stagger className="grid cols-3" stagger={0.07}>
-            {partners.map((partner) => (
+            {partners.filter((partner) => partner.slug !== warpedAtlas.slug).map((partner) => (
               <StaggerItem as="article" className="card studio-card" variant="card" key={partner.slug}>
                 <StudioLogo
                   slug={partner.slug}

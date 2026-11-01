@@ -1,5 +1,6 @@
 import gasbrosDark from '@/assets/partners/gasbros-gaming-network-dark.png';
 import gasbrosLight from '@/assets/partners/gasbros-gaming-network-light.png';
+import warpedAtlasMark from '@/assets/warped-atlas-white.png';
 
 import type { StudioLogo } from '@/lib/studios';
 
@@ -22,7 +23,31 @@ export type Partner = {
   chip: { background: string; color?: string };
 };
 
+export const warpedAtlas: Partner = {
+  slug: 'warped-atlas',
+  name: 'Warped Atlas',
+  wallName: 'Warped Atlas',
+  initials: 'WA',
+  url: 'https://warpedatlas.com/',
+  role: 'Africa · Ecosystem mapping',
+  bio: "The company mapping Africa's game-development ecosystem. A Warped hq initiative, Warped Atlas is the searchable record of the continent's studios, projects, creators and events.",
+  // one white-on-transparent mark, inverted in the light theme
+  logo: { light: warpedAtlasMark, dark: warpedAtlasMark },
+  invertLight: true,
+  chip: { background: 'var(--ink)' },
+};
+
+/** Warped Atlas's published counts. Update them here and every page follows. */
+export const atlasCounts = {
+  records: 345,
+  countries: 16,
+  studios: 84,
+  projects: 202,
+  ghanaRecords: 108,
+};
+
 export const partners: Partner[] = [
+  warpedAtlas,
   {
     slug: 'gasbros-gaming-network',
     name: 'Gasbros Gaming Network',

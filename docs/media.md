@@ -14,13 +14,14 @@ back to the page it came from:
 
 | Studio | Source | Titles |
 |---|---|---|
-| Leti Arts | letiarts.com/games | Africa's Legends, Karmzah, Puzzle Scout, Sweave |
-| Relu Interactives | reluinteractives.com | Sort Jam, Africa's Legends VR — **both with gameplay video** |
-| Organized Khaos | organizedkhaosgh.com/projects | Echo, Spar 3D, Ring Frenzy, Brick Blast |
+| Leti Arts | letigames.com/games | Africa's Legends, Karmzah, Puzzle Scout, Sweave |
+| Relu Interactives | reluinteractives.com, akofena.reluspatial.com | Sort Jam, Africa's Legends VR (both with gameplay video), Akofena (key art plus a gameplay still) |
+| Organized Khaos | organizedkhaosgh.com/products | Echo, Ring Frenzy, Brick Blast. Spar 3D is no longer on the studio's site, so its card has no link |
 | OGames Studio | ogamesstudio.com/our-games | SimuLab, Alien-X, Fallen Souls, Corona Dodge |
 | Kofiro | kofiro.com | Only One, Space VR Racer, Cubox, Magicube, Rolly Birdie, The Last Drive |
 
-Blurbs are the studios' own words, lightly trimmed. **This is other people's
+Blurbs start from each studio's description, rewritten with the stop-slop rules.
+**This is other people's
 artwork** — worth confirming each studio is happy for GAG to host it, even
 though the association is showcasing its own members.
 
@@ -67,18 +68,58 @@ and `-crf 30` (both land under 2 MB).
 ## Event photos
 
 **Folder:** `public/gallery/` **Data:** [`lib/gallery.ts`](../lib/gallery.ts)
+(`mtnContestTiles`, `mtnConferenceTiles` and `galleryTiles` for the events page,
+`communityTiles` for the about page) and [`lib/events.ts`](../lib/events.ts)
 
 ```ts
 { label: 'Global Game Jam · Accra ’24', span: 'hero', art: '…', image: '/gallery/ggj-24.jpg' }
 ```
 
+Keep the walls balanced: show the whole community, not just one studio or stand.
+
 `span` sets the tile's footprint in the wall: `'hero'` (4 cols × 2 rows),
 `'wide'` (3 cols), `'tall'` (2 cols × 2 rows) or `''` (2 cols). The current set
 tiles the grid exactly — if you add or remove tiles, rebalance the spans so each
-row fills six columns.
+row fills six columns. Longer walls repeat the same run of spans.
 
 Landscape photos at **1600 × 1000** or larger. Tiles crop to fill, so keep the
-subject near the centre. Clicking a tile expands it into the lightbox.
+subject near the centre, or set `position` (for example `'50% 25%'`) to choose
+what stays in frame. Clicking a tile expands it into the lightbox.
+
+Each entry in `pastEvents` takes its own photo too. Until `image` is set, the
+card shows the event's `art` gradient with its date on top:
+
+```ts
+{ slug: 'mtn-gaming-conference-2026', /* … */
+  image: '/gallery/mtn-gaming-conference-2026.jpg',
+  imageAlt: 'Keynote at the MTN Gaming Conference' }
+```
+
+The first two entries lead the page as "just wrapped" (16:9); the rest sit in
+the year-by-year archive (16:10). The Gamescom 2026 card borrows a 2025 booth
+photo until 2026 photos arrive.
+
+The community wall mixes GDAG's own photos from Gamescom and the MTN Gaming
+Conference with pictures from Leti Arts' newsletter (Novembre Numérique, Global
+Game Jam, Pi Day). Those are Leti's photos, credited under the wall, so confirm
+they're happy for GDAG to use them. The contest wall uses press photos published
+by Choice News Online, also credited on the page, which need the same OK.
+
+## News
+
+**Folder:** `public/news/` **Data:** [`lib/news.ts`](../lib/news.ts)
+
+Stories are curated by hand, newest first, from Leti Arts' newsletter
+(letinews.substack.com), the Organized Khaos blog, Relu Interactives and Gasbros
+Gaming Network. Organized Khaos (`/rss.xml`), Gasbros (`/feed/`) and the Leti
+newsletter (`/feed`) all publish feeds, which is the quickest way to see what's
+new. Write the headline and summary in our own words and link out for the full
+story.
+
+`image` is optional and shows at 16:9, so wide art works best. Pre-crop anything
+portrait, or use the blurred treatment above so the art isn't cut off. Game posters from
+`public/games/` are fine for a story about that game. Without one the card shows
+the `art` gradient with the source's name.
 
 ## Portraits
 
@@ -131,5 +172,12 @@ GameKit sample-game screenshots plus its icon (gamekit.opare.dev).
 ## A note on file size
 
 `next/image` handles resizing and format conversion for everything under
-`public/`, so upload the highest-quality original you have rather than
-pre-shrinking it. Video is **not** processed — compress those yourself.
+`public/`, but never commit camera originals: a 12 MB photo bloats the repo and
+makes the first request for each size slow. Export at **1800px on the long edge**
+as JPEG quality 74, which lands around 200–400 KB, and strip the metadata, because
+camera files can carry GPS. Video is **not** processed — compress those yourself.
+
+Keep each image's `sizes` true to how wide it really renders, capped at the
+1180px container. That hint decides which file the browser downloads, so it
+matters as much as the source file. Only use `preload` for an image that's visible
+without scrolling.

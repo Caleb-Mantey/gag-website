@@ -25,6 +25,7 @@ export default function Footer() {
             <Link href="/studios">Studios</Link>
             <Link href="/games">Games</Link>
             <Link href="/events">Events</Link>
+            <Link href="/news">News</Link>
             <Link href="/about">About GDAG</Link>
           </div>
 
@@ -37,8 +38,8 @@ export default function Footer() {
 
           <div className="footer-col">
             <h4>Ecosystem</h4>
-            <a href="https://warpedatlas.com/countries/ghana" target="_blank" rel="noopener noreferrer">
-              Ghana on Warped Atlas ↗
+            <a href="https://warpedatlas.com/" target="_blank" rel="noopener noreferrer">
+              Warped Atlas ↗
             </a>
             <Link href="/about#warped">The Warped Atlas collab</Link>
             <a href="https://gasbrosgamingnetwork.com/" target="_blank" rel="noopener noreferrer">

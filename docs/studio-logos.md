@@ -42,8 +42,8 @@ theme, so switching themes is instant and needs no JavaScript.
   background will show as a visible rectangle — re-export it on black or
   transparent.
 - **Mono white-on-black logo with no light version?** Set `invertLight: true` on
-  the studio; the light theme inverts it to black-on-cream (used for Dusu
-  Studios).
+  the entry; the light theme inverts it to black-on-cream (used for Warped
+  Atlas).
 - **Trim the artboard.** Each tile letterboxes the logo inside a fixed box
   (`object-fit: contain`), so generous transparent padding inside the source
   file makes the mark read smaller than its neighbours.
@@ -55,11 +55,13 @@ with artwork in `assets/partners/`, and are excluded from `studioCount` and the
 studio directory. Everything else (naming, theme variants, blend keying) works
 exactly the same.
 
-> **Play.warped** — the supplied mark is byte-identical to the Warped Atlas
-> white logo, so the founding wall and the Warped Atlas band on the home page
-> show the same artwork. It's stored once as `play-warped.png` and inverted for
-> the light theme via `invertLight`. Swap in a distinct Play.warped mark if one
-> exists.
+> **Warped Atlas** — not a studio, so it isn't in the founding wall or the studio
+> count. Play.warped was the same organisation, so that entry was retired. Its
+> one white logo, `assets/warped-atlas-white.png`, is inverted for the light
+> theme via `invertLight`. On the site it's highlighted as the company mapping
+> the ecosystem, through `AtlasBand` on the home and studios pages and the
+> `#warped` section of the about page. Its published counts live in
+> `atlasCounts` in `lib/partners.ts`, so refresh them there.
 
 > **Dumsor Games** — supplied as a single JPEG (black linework on a near-white
 > artboard). Both variants were generated from it: the artboard keyed to
@@ -88,15 +90,13 @@ Sizes are set in `app/globals.css` under *studio logo wall*.
 
 ## Slugs
 
-Founding studios: `leti-arts`, `relu-interactives`, `organized-khaos`,
-`play-warped`.
+Founding studios: `leti-arts`, `relu-interactives`, `organized-khaos`.
 
-Member studios: `ogames-studio`, `mills-media`, `cityquest-africa`, `dobiison`,
-`play233`, `bawala-studios`, `dumsor-games`, `dusu-studios`.
+Member studios: `ogames-studio`, `dobiison`, `bawala-studios`, `dumsor-games`.
 
 Independent developers: `kofiro`, `kwame-opare-asiedu`.
 
-Partners: `gasbros-gaming-network`.
+Partners: `warped-atlas`, `gasbros-gaming-network`.
 
 `lib/studios.ts` holds three arrays — `foundingStudios`, `memberStudios` and
 `indieStudios` — and the home walls, the studios page and the network total all

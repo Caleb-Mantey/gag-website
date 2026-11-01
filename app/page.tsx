@@ -1,50 +1,42 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
-import warpedAtlasLogo from '@/assets/warped-atlas-white.png';
+import AtlasBand from '@/components/AtlasBand';
 import EngineShowcase from '@/components/EngineShowcase';
 import FeaturedGames from '@/components/FeaturedGames';
 import HeroVisual from '@/components/HeroVisual';
+import NewsCard from '@/components/NewsCard';
 import StudioLogo from '@/components/StudioLogo';
 import { ArrowIcon, FlagRule, Glyphs, StudioPlaceholderMark } from '@/components/icons';
 import CountUp from '@/components/motion/CountUp';
 import Reveal from '@/components/motion/Reveal';
 import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 import { engines } from '@/lib/engines';
+import { pastEvents, upcomingEvents } from '@/lib/events';
 import { featuredGames } from '@/lib/games';
-import { partners } from '@/lib/partners';
+import { news } from '@/lib/news';
+import { atlasCounts, partners } from '@/lib/partners';
 import { foundingStudios, indieStudios, memberStudios, studioCount } from '@/lib/studios';
 
-const atlasStats = [
-  { n: 44, suffix: '', label: 'Ghana records mapped', color: 'var(--gold)', tintNumber: true },
-  { n: 12, suffix: '+', label: 'Countries covered', color: 'var(--gold)' },
-  { n: 57, suffix: '+', label: 'Studios continent-wide', color: 'var(--green)' },
-  { n: 94, suffix: '+', label: 'Projects documented', color: 'var(--gold)' },
-];
+const [nextEvent] = upcomingEvents;
 
+// what's next, then the two most recent events
 const eventTeasers = [
   {
-    date: 'Q4 2026',
-    title: 'GDAG Showcase & Investor Night',
-    body: "Ghana's studios present their latest titles to partners, publishers and investors.",
-    em: 'Details coming soon.',
-    status: 'up' as const,
+    key: nextEvent.title,
+    date: nextEvent.date,
+    title: nextEvent.title,
+    body: nextEvent.body,
+    status: nextEvent.status,
     statusLabel: 'Upcoming',
   },
-  {
-    date: '2024',
-    title: 'Global Game Jam · Accra',
-    body: "Ghanaian developers joined the world's largest game-creation event, building playable games in 48 hours.",
+  ...pastEvents.slice(0, 2).map((event) => ({
+    key: event.slug,
+    date: event.dateLabel,
+    title: event.title,
+    body: event.summary,
     status: 'past' as const,
     statusLabel: 'Past',
-  },
-  {
-    date: 'Aug 2022',
-    title: 'GDAG Inaugural Gathering',
-    body: 'The founding of the association, convened by the community and chaired by Eyram Tawia of Leti Arts.',
-    status: 'past' as const,
-    statusLabel: 'Past',
-  },
+  })),
 ];
 
 export default function HomePage() {
@@ -81,56 +73,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* GAMESCOM 2026 LIVE FEATURE */}
-      <section className="container gamescom-feature-wrap">
-        <Reveal className="gamescom-feature">
-          <div className="gamescom-feature__copy">
-            <div className="gamescom-feature__status">
-              <span aria-hidden="true" />
-              Live in Cologne · 24–30 August
-            </div>
-            <p className="eyebrow eyebrow--gold">Gamescom 2026</p>
-            <h2 className="h2 balance">We&apos;re at the world&apos;s biggest games event.</h2>
-            <p className="lead">
-              GDAG is bringing Ghana&apos;s game development community to the global stage. Visit our booth to meet the
-              people building games in Ghana, discover what we&apos;re making and see more from the community.
-            </p>
-            <Link href="/events" className="btn btn--primary">
-              See GDAG at Gamescom
-              <ArrowIcon />
-            </Link>
-          </div>
-
-          <div className="gamescom-feature__photos" aria-label="Scenes from GDAG at Gamescom 2025">
-            <div className="gamescom-feature__photo gamescom-feature__photo--main">
-              <Image
-                src="/gallery/gamescom-2025-delegation.jpg"
-                alt="GDAG representatives meeting attendees at Gamescom 2025"
-                fill
-                sizes="(min-width: 900px) 34vw, 80vw"
-              />
-            </div>
-            <div className="gamescom-feature__photo">
-              <Image
-                src="/gallery/gamescom-2025-booth-demo.jpg"
-                alt="Games being demonstrated at a Gamescom booth in 2025"
-                fill
-                sizes="(min-width: 900px) 16vw, 40vw"
-              />
-            </div>
-            <div className="gamescom-feature__photo">
-              <Image
-                src="/gallery/gamescom-2025-team-at-booth.jpg"
-                alt="The team together at Gamescom 2025"
-                fill
-                sizes="(min-width: 900px) 16vw, 40vw"
-              />
-            </div>
-            <span className="gamescom-feature__caption">Scenes from Gamescom 2025</span>
-          </div>
-        </Reveal>
-      </section>
-
       {/* STAT BAND */}
       <section className="container" style={{ marginBottom: 'clamp(40px,6vw,80px)' }}>
         <Stagger className="stat-band" stagger={0.07}>
@@ -149,7 +91,7 @@ export default function HomePage() {
           </StaggerItem>
           <StaggerItem className="stat">
             <div className="n">
-              <CountUp to={44} />
+              <CountUp to={atlasCounts.ghanaRecords} />
             </div>
             <div className="l">Ghana records on Warped Atlas</div>
           </StaggerItem>
@@ -208,7 +150,7 @@ export default function HomePage() {
                 The founding studios
               </Reveal>
               <Reveal as="h2" className="h2 balance" delay={0.06}>
-                The four studios that started the movement.
+                The studios that started the movement.
               </Reveal>
             </div>
             <Reveal delay={0.06}>
@@ -290,10 +232,10 @@ export default function HomePage() {
 
           <div className="studios-split">
             <Reveal as="p" className="eyebrow eyebrow--gold" style={{ marginBottom: 10 }}>
-              Ecosystem partners · news &amp; media
+              Ecosystem partners · mapping &amp; media
             </Reveal>
             <Reveal as="p" className="text-muted measure" delay={0.06} style={{ marginBottom: 24, fontSize: 15 }}>
-              Beyond the studios, we work hand in hand with the people telling the industry&apos;s story.
+              Beyond the studios, we work hand in hand with the people mapping the ecosystem and telling its story.
             </Reveal>
             <Stagger className="logo-wall partners" stagger={0.06}>
               {partners.map((partner) => (
@@ -361,69 +303,7 @@ export default function HomePage() {
       {/* WARPED ATLAS BAND */}
       <section className="section">
         <div className="container">
-          <Reveal className="band band--ink">
-            <div className="grid cols-2" style={{ alignItems: 'center', gap: 44 }}>
-              <div>
-                <Image
-                  src={warpedAtlasLogo}
-                  alt="Warped Atlas"
-                  className="wa-logo"
-                  sizes="150px"
-                  style={{ height: 34, width: 'auto', display: 'block', marginBottom: 20 }}
-                />
-                <p className="eyebrow eyebrow--gold">In collaboration with Warped Atlas</p>
-                <h2 className="h2 balance" style={{ margin: '16px 0 18px' }}>
-                  Putting Ghana on the map.
-                </h2>
-                <p className="lead">
-                  Warped Atlas is the public record of Africa&apos;s game-development and interactive-media ecosystem:{' '}
-                  <strong>57+ studios across 12+ countries</strong>, documented and searchable. GDAG works with Warped
-                  Atlas to keep Ghana&apos;s chapter accurate, complete and visible to the world.
-                </p>
-                <div style={{ marginTop: 26, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                  <Link href="/about#warped" className="btn btn--primary">
-                    The collaboration
-                  </Link>
-                  <a
-                    href="https://warpedatlas.com/countries/ghana"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn--ghost"
-                    style={{ borderColor: 'color-mix(in oklab,currentColor 40%,transparent)', color: 'currentColor' }}
-                  >
-                    Ghana on Warped Atlas ↗
-                  </a>
-                </div>
-              </div>
-              <Stagger
-                className="grid cols-2"
-                stagger={0.08}
-                style={{
-                  gap: 1,
-                  background: 'color-mix(in oklab,currentColor 16%,transparent)',
-                  borderRadius: 'var(--radius)',
-                  overflow: 'hidden',
-                }}
-              >
-                {atlasStats.map((item) => (
-                  <StaggerItem
-                    key={item.label}
-                    style={{ padding: '26px 22px', background: 'color-mix(in oklab,currentColor 7%,transparent)' }}
-                  >
-                    <div className="stat">
-                      <div className="n" style={item.tintNumber ? { color: item.color } : undefined}>
-                        <CountUp to={item.n} />
-                        {item.suffix && <b style={{ color: item.color }}>{item.suffix}</b>}
-                      </div>
-                      <div className="l" style={{ color: 'color-mix(in oklab,currentColor 66%,transparent)' }}>
-                        {item.label}
-                      </div>
-                    </div>
-                  </StaggerItem>
-                ))}
-              </Stagger>
-            </div>
-          </Reveal>
+          <AtlasBand />
         </div>
       </section>
 
@@ -448,13 +328,11 @@ export default function HomePage() {
           </div>
           <Stagger stagger={0.09}>
             {eventTeasers.map((event, i) => (
-              <StaggerItem key={event.title} className="event-row" style={i === 0 ? { borderTop: 0 } : undefined}>
+              <StaggerItem key={event.key} className="event-row" style={i === 0 ? { borderTop: 0 } : undefined}>
                 <div className="date">{event.date}</div>
                 <div>
                   <h3>{event.title}</h3>
-                  <p>
-                    {event.body} {event.em && <em>{event.em}</em>}
-                  </p>
+                  <p>{event.body}</p>
                 </div>
                 <span className={`status-pill ${event.status}`}>{event.statusLabel}</span>
               </StaggerItem>
@@ -463,8 +341,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* INVESTOR CTA */}
+      {/* LATEST NEWS */}
       <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <Reveal as="p" className="eyebrow eyebrow--gold">
+                Latest news
+              </Reveal>
+              <Reveal as="h2" className="h2 balance" delay={0.06}>
+                What&apos;s moving the industry.
+              </Reveal>
+            </div>
+            <Reveal delay={0.06}>
+              <Link href="/news" className="link-arrow">
+                All news
+                <ArrowIcon />
+              </Link>
+            </Reveal>
+          </div>
+          <Stagger className="news-grid" stagger={0.08}>
+            {news.slice(0, 3).map((item) => (
+              <StaggerItem key={item.slug} variant="card">
+                <NewsCard item={item} />
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* INVESTOR CTA */}
+      <section className="section section--alt">
         <div className="container">
           <Stagger stagger={0.08} style={{ textAlign: 'center', maxWidth: 760, marginInline: 'auto' }}>
             <StaggerItem>

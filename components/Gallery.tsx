@@ -2,15 +2,25 @@
 
 import { AnimatePresence, motion } from 'motion/react';
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { CloseIcon, ExpandIcon } from '@/components/icons';
 import { Stagger } from '@/components/motion/Stagger';
 import { EASE, staggerCard } from '@/components/motion/config';
-import { galleryTiles } from '@/lib/gallery';
+import { galleryTiles, type GalleryTile } from '@/lib/gallery';
 
-export default function Gallery() {
+/** Each span's real width, capped by the 1180px container, so a tile only fetches what it shows. */
+const TILE_SIZES: Record<GalleryTile['span'], string> = {
+  hero: '(min-width:1180px) 750px, (min-width:720px) 64vw, 50vw',
+  wide: '(min-width:1180px) 560px, (min-width:720px) 48vw, 100vw',
+  tall: '(min-width:1180px) 370px, (min-width:720px) 32vw, 50vw',
+  '': '(min-width:1180px) 370px, (min-width:720px) 32vw, 50vw',
+};
+
+export default function Gallery({ tiles = galleryTiles }: { tiles?: GalleryTile[] }) {
+  // keeps the shared-element ids apart when a page shows more than one wall
+  const wall = useId();
   const [active, setActive] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   const close = useCallback(() => setActive(null), []);
@@ -34,7 +44,7 @@ export default function Gallery() {
     };
   }, [active, close]);
 
-  const activeTile = active === null ? null : galleryTiles[active];
+  const activeTile = active === null ? null : tiles[active];
 
   const lightbox = (
     <AnimatePresence>
@@ -52,11 +62,13 @@ export default function Gallery() {
         >
           <motion.div
             className="lightbox__frame"
-            layoutId={`gtile-${active}`}
+            layoutId={`${wall}-${active}`}
             style={activeTile.image ? undefined : { background: activeTile.art }}
             onClick={(e) => e.stopPropagation()}
           >
-            {activeTile.image && <Image src={activeTile.image} alt={activeTile.label} fill sizes="100vw" />}
+            {activeTile.image && (
+              <Image src={activeTile.image} alt={activeTile.label} fill sizes="(min-width:1000px) 1000px, 100vw" />
+            )}
             <motion.div
               className="lightbox__caption"
               initial={{ opacity: 0, y: 10 }}
@@ -84,7 +96,7 @@ export default function Gallery() {
   return (
     <>
       <Stagger className="gallery" stagger={0.07}>
-        {galleryTiles.map((tile, i) => (
+        {tiles.map((tile, i) => (
           <motion.button
             key={tile.label}
             type="button"
@@ -98,12 +110,20 @@ export default function Gallery() {
           >
             <motion.div
               className="gtile__art"
-              layoutId={`gtile-${i}`}
+              layoutId={`${wall}-${i}`}
               style={tile.image ? undefined : { background: tile.art }}
               variants={{ rest: { scale: 1 }, hover: { scale: 1.07 } }}
               transition={{ duration: 0.7, ease: EASE }}
             >
-              {tile.image && <Image src={tile.image} alt="" fill sizes="(min-width:720px) 45vw, 100vw" />}
+              {tile.image && (
+                <Image
+                  src={tile.image}
+                  alt=""
+                  fill
+                  sizes={TILE_SIZES[tile.span]}
+                  style={tile.position ? { objectPosition: tile.position } : undefined}
+                />
+              )}
             </motion.div>
             <div className="gtile__scrim" />
             <span className="gtile__expand">

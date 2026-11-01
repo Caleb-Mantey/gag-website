@@ -8,7 +8,7 @@ type Props = {
   slug: string;
   name: string;
   logo?: StudioLogoAsset;
-  /** Invert the light-theme artwork (mono white-on-black marks, e.g. Dusu). */
+  /** Invert the light-theme artwork (mono white-on-black marks, e.g. Warped Atlas). */
   invertLight?: boolean;
   /** Extra classes on the tile — e.g. "directory-logo" or "visual". */
   className?: string;
